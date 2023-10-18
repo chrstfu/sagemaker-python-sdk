@@ -12,9 +12,9 @@
 # language governing permissions and limitations under the License.
 from __future__ import absolute_import
 
+import datetime
 import json
 import time
-import datetime
 import dateutil.parser as date_parser
 from contextlib import contextmanager
 
@@ -24,7 +24,12 @@ import pandas as pd
 import pytest
 from pandas import DataFrame
 
-from sagemaker.feature_store.feature_definition import FractionalFeatureDefinition
+from sagemaker.feature_store.feature_utils import get_feature_group_as_dataframe
+from sagemaker.feature_store.feature_definition import (
+    FractionalFeatureDefinition,
+    StringFeatureDefinition,
+    ListCollectionType,
+)
 from sagemaker.feature_store.feature_group import FeatureGroup
 from sagemaker.feature_store.feature_store import FeatureStore
 from sagemaker.feature_store.inputs import (
@@ -37,6 +42,7 @@ from sagemaker.feature_store.inputs import (
     DeletionModeEnum,
     TtlDuration,
     OnlineStoreConfigUpdate,
+    OnlineStoreStorageTypeEnum,
 )
 from sagemaker.feature_store.dataset_builder import (
     JoinTypeEnum,
@@ -181,6 +187,16 @@ def record():
         FeatureValue(feature_name="feature1", value_as_string="10.0"),
         FeatureValue(feature_name="feature2", value_as_string="10"),
         FeatureValue(feature_name="feature3", value_as_string="2020-10-30T03:43:21Z"),
+    ]
+
+
+@pytest.fixture
+def collection_type_record():
+    return [
+        FeatureValue(feature_name="feature1", value_as_string="10.0"),
+        FeatureValue(feature_name="feature2", value_as_string="10"),
+        FeatureValue(feature_name="feature3", value_as_string="2020-10-30T03:43:21Z"),
+        FeatureValue(feature_name="feature4", value_as_string_list=["val1", "val2"]),
     ]
 
 
@@ -344,6 +360,54 @@ def test_create_feature_group_glue_table_format(
 
         table_format = feature_group.describe().get("OfflineStoreConfig").get("TableFormat")
         assert table_format == "Glue"
+
+
+def test_create_feature_group_in_memory_storage_type(
+    feature_store_session,
+    role,
+    feature_group_name,
+    pandas_data_frame,
+):
+    feature_group = FeatureGroup(name=feature_group_name, sagemaker_session=feature_store_session)
+    feature_group.load_feature_definitions(data_frame=pandas_data_frame)
+
+    with cleanup_feature_group(feature_group):
+        feature_group.create(
+            s3_uri=False,
+            record_identifier_name="feature1",
+            event_time_feature_name="feature3",
+            role_arn=role,
+            enable_online_store=True,
+            online_store_storage_type=OnlineStoreStorageTypeEnum.IN_MEMORY,
+        )
+        _wait_for_feature_group_create(feature_group)
+
+        storage_type = feature_group.describe().get("OnlineStoreConfig").get("StorageType")
+        assert storage_type == "InMemory"
+
+
+def test_create_feature_group_standard_storage_type(
+    feature_store_session,
+    role,
+    feature_group_name,
+    pandas_data_frame,
+):
+    feature_group = FeatureGroup(name=feature_group_name, sagemaker_session=feature_store_session)
+    feature_group.load_feature_definitions(data_frame=pandas_data_frame)
+
+    with cleanup_feature_group(feature_group):
+        feature_group.create(
+            s3_uri=False,
+            record_identifier_name="feature1",
+            event_time_feature_name="feature3",
+            role_arn=role,
+            enable_online_store=True,
+            online_store_storage_type=OnlineStoreStorageTypeEnum.STANDARD,
+        )
+        _wait_for_feature_group_create(feature_group)
+
+        storage_type = feature_group.describe().get("OnlineStoreConfig").get("StorageType")
+        assert storage_type == "Standard"
 
 
 def test_ttl_duration(
@@ -612,6 +676,60 @@ def test_get_and_batch_get_record(
         for feature in records[0]["Record"]:
             assert feature["FeatureName"] in record_names
             assert feature["FeatureName"] is not removed_feature_name
+
+
+def test_put_and_get_collection_type_record(
+    feature_store_session,
+    role,
+    feature_group_name,
+    pandas_data_frame,
+    collection_type_record,
+):
+    feature_group = FeatureGroup(name=feature_group_name, sagemaker_session=feature_store_session)
+    feature_definition_with_collection = [
+        StringFeatureDefinition(feature_name="feature1"),
+        StringFeatureDefinition(feature_name="feature2"),
+        StringFeatureDefinition(feature_name="feature3"),
+        StringFeatureDefinition(feature_name="feature4", collection_type=ListCollectionType()),
+    ]
+    feature_group.feature_definitions = feature_definition_with_collection
+    record_identifier_value_as_string = collection_type_record[0].value_as_string
+    with cleanup_feature_group(feature_group):
+        feature_group.create(
+            s3_uri=False,
+            record_identifier_name="feature1",
+            event_time_feature_name="feature3",
+            role_arn=role,
+            enable_online_store=True,
+            online_store_storage_type=OnlineStoreStorageTypeEnum.IN_MEMORY,
+        )
+        _wait_for_feature_group_create(feature_group)
+        # Ingest data
+        feature_group.put_record(record=collection_type_record)
+        # Retrieve data
+        retrieved_record = feature_group.get_record(
+            record_identifier_value_as_string=record_identifier_value_as_string,
+        )
+
+        assert retrieved_record is not None
+        record_names = list(map(lambda r: r.feature_name, collection_type_record))
+        assert len(retrieved_record) == len(record_names)
+
+        retrieved_feature_map = {}
+        for feature in retrieved_record:
+            assert feature["FeatureName"] in record_names
+            retrieved_feature_map[feature["FeatureName"]] = (
+                feature.get("ValueAsStringList")
+                if feature.get("ValueAsString") is None
+                else feature.get("ValueAsString")
+            )
+
+        assert collection_type_record[0].value_as_string == retrieved_feature_map.get("feature1")
+        assert collection_type_record[1].value_as_string == retrieved_feature_map.get("feature2")
+        assert collection_type_record[2].value_as_string == retrieved_feature_map.get("feature3")
+        assert collection_type_record[3].value_as_string_list == retrieved_feature_map.get(
+            "feature4"
+        )
 
 
 def test_soft_delete_record(
@@ -899,7 +1017,12 @@ def test_create_dataset_with_feature_group_base(
             base, base_dataframe, offline_store_s3_uri, "base_id", "base_time", role
         )
         _create_feature_group_and_ingest_data(
-            feature_group, feature_group_dataframe, offline_store_s3_uri, "fg_id", "fg_time", role
+            feature_group,
+            feature_group_dataframe,
+            offline_store_s3_uri,
+            "fg_id",
+            "fg_time",
+            role,
         )
         base_table_name = _get_athena_table_name_after_data_replication(
             feature_store_session, base, offline_store_s3_uri
@@ -1081,7 +1204,12 @@ def test_create_dataset_with_feature_group_base_with_additional_params(
             base, base_dataframe, offline_store_s3_uri, "base_id", "base_time", role
         )
         _create_feature_group_and_ingest_data(
-            feature_group, feature_group_dataframe, offline_store_s3_uri, "fg_id", "fg_time", role
+            feature_group,
+            feature_group_dataframe,
+            offline_store_s3_uri,
+            "fg_id",
+            "fg_time",
+            role,
         )
         base_table_name = _get_athena_table_name_after_data_replication(
             feature_store_session, base, offline_store_s3_uri
@@ -1107,7 +1235,10 @@ def test_create_dataset_with_feature_group_base_with_additional_params(
             )
             sorted_df = df.sort_values(by=list(df.columns)).reset_index(drop=True)
             merged_df = base_dataframe.merge(
-                feature_group_dataframe, left_on="base_time", right_on="fg_time", how="outer"
+                feature_group_dataframe,
+                left_on="base_time",
+                right_on="fg_time",
+                how="outer",
             )
 
             expect_df = merged_df.sort_values(by=list(merged_df.columns)).reset_index(drop=True)
@@ -1346,6 +1477,82 @@ def _wait_for_feature_group_update(feature_group: FeatureGroup):
         print(feature_group.describe())
         raise RuntimeError(f"Failed to update feature group {feature_group.name}")
     print(f"FeatureGroup {feature_group.name} successfully updated.")
+
+
+def test_get_feature_group_with_region(
+    feature_store_session,
+    region_name,
+    role,
+    feature_group_name,
+    offline_store_s3_uri,
+    pandas_data_frame,
+):
+    feature_group = FeatureGroup(name=feature_group_name, sagemaker_session=feature_store_session)
+    feature_group.load_feature_definitions(data_frame=pandas_data_frame)
+
+    with cleanup_feature_group(feature_group):
+        output = feature_group.create(
+            s3_uri=offline_store_s3_uri,
+            record_identifier_name="feature1",
+            event_time_feature_name="feature3",
+            role_arn=role,
+            enable_online_store=True,
+        )
+        _wait_for_feature_group_create(feature_group)
+
+        feature_group.ingest(
+            data_frame=pandas_data_frame, max_workers=3, max_processes=2, wait=True
+        )
+
+        dataset = get_feature_group_as_dataframe(
+            feature_group_name=feature_group_name,
+            region=str(region_name),
+            event_time_feature_name="feature3",
+            latest_ingestion=True,
+            athena_bucket=f"{offline_store_s3_uri}/query",
+            verbose=False,
+        )
+
+        assert isinstance(dataset, DataFrame)
+    assert output["FeatureGroupArn"].endswith(f"feature-group/{feature_group_name}")
+
+
+def test_get_feature_group_with_session(
+    feature_store_session,
+    role,
+    feature_group_name,
+    offline_store_s3_uri,
+    pandas_data_frame,
+):
+    feature_group = FeatureGroup(name=feature_group_name, sagemaker_session=feature_store_session)
+    feature_group.load_feature_definitions(data_frame=pandas_data_frame)
+
+    with cleanup_feature_group(feature_group):
+        output = feature_group.create(
+            s3_uri=offline_store_s3_uri,
+            record_identifier_name="feature1",
+            event_time_feature_name="feature3",
+            role_arn=role,
+            enable_online_store=True,
+        )
+        _wait_for_feature_group_create(feature_group)
+
+        feature_group.ingest(
+            data_frame=pandas_data_frame, max_workers=3, max_processes=2, wait=True
+        )
+
+        dataset = get_feature_group_as_dataframe(
+            feature_group_name=feature_group_name,
+            session=feature_store_session,
+            event_time_feature_name="feature3",
+            latest_ingestion=True,
+            athena_bucket=f"{offline_store_s3_uri}/query",
+            verbose=False,
+            low_memory=False,
+        )  # Using kwargs to pass a parameter to pandas.read_csv
+
+        assert isinstance(dataset, DataFrame)
+    assert output["FeatureGroupArn"].endswith(f"feature-group/{feature_group_name}")
 
 
 @contextmanager

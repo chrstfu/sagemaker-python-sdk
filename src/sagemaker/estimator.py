@@ -1665,8 +1665,8 @@ class EstimatorBase(with_metaclass(ABCMeta, object)):  # pylint: disable=too-man
 
     def register(
         self,
-        content_types,
-        response_types,
+        content_types=None,
+        response_types=None,
         inference_instances=None,
         transform_instances=None,
         image_uri=None,
@@ -3082,6 +3082,7 @@ class Estimator(EstimatorBase):
             hyperparameters=hyperparameters,
             instance_groups=instance_groups,
             training_repository_access_mode=training_repository_access_mode,
+            enable_infra_check=enable_infra_check,
             training_repository_credentials_provider_arn=training_repository_credentials_provider_arn,  # noqa: E501 # pylint: disable=line-too-long
             container_entry_point=container_entry_point,
             container_arguments=container_arguments,

@@ -43,6 +43,7 @@ from sagemaker.config import (
     ENDPOINT_CONFIG_ASYNC_KMS_KEY_ID_PATH,
     load_sagemaker_config,
 )
+from sagemaker.model_card.schema_constraints import ModelApprovalStatusEnum
 from sagemaker.session import Session
 from sagemaker.model_metrics import ModelMetrics
 from sagemaker.deprecations import removed_kwargs
@@ -374,12 +375,14 @@ class Model(ModelBase, InferenceRecommenderMixin):
             self.dependencies = updates["dependencies"]
         self.uploaded_code = None
         self.repacked_model_data = None
+        self.content_types = None
+        self.response_types = None
 
     @runnable_by_pipeline
     def register(
         self,
-        content_types: List[Union[str, PipelineVariable]],
-        response_types: List[Union[str, PipelineVariable]],
+        content_types: List[Union[str, PipelineVariable]] = None,
+        response_types: List[Union[str, PipelineVariable]] = None,
         inference_instances: Optional[List[Union[str, PipelineVariable]]] = None,
         transform_instances: Optional[List[Union[str, PipelineVariable]]] = None,
         model_package_name: Optional[Union[str, PipelineVariable]] = None,
@@ -456,15 +459,32 @@ class Model(ModelBase, InferenceRecommenderMixin):
             in case the Model instance is built with
             :class:`~sagemaker.workflow.pipeline_context.PipelineSession`
         """
-        if self.model_data is None:
-            raise ValueError("SageMaker Model Package cannot be created without model data.")
         if isinstance(self.model_data, dict):
             raise ValueError(
                 "SageMaker Model Package currently cannot be created with ModelDataSource."
             )
 
+        if content_types is not None:
+            self.content_types = content_types
+
+        if response_types is not None:
+            self.response_types = response_types
+
+        if self.content_types is None:
+            raise ValueError("The supported MIME types for the input data is not set")
+
+        if self.response_types is None:
+            raise ValueError("The supported MIME types for the output data is not set")
+
         if image_uri is not None:
             self.image_uri = image_uri
+
+        if model_package_group_name is None and model_package_name is None:
+            # If model package group and model package name is not set
+            # then register to auto-generated model package group
+            model_package_group_name = utils.base_name_from_image(
+                self.image_uri, default_base_name=ModelPackage.__name__
+            )
 
         if model_package_group_name is not None:
             container_def = self.prepare_container_def()
@@ -478,12 +498,14 @@ class Model(ModelBase, InferenceRecommenderMixin):
         else:
             container_def = {
                 "Image": self.image_uri,
-                "ModelDataUrl": self.model_data,
             }
 
+            if self.model_data is not None:
+                container_def["ModelDataUrl"] = self.model_data
+
         model_pkg_args = sagemaker.get_model_package_args(
-            content_types,
-            response_types,
+            self.content_types,
+            self.response_types,
             inference_instances=inference_instances,
             transform_instances=transform_instances,
             model_package_name=model_package_name,
@@ -511,6 +533,7 @@ class Model(ModelBase, InferenceRecommenderMixin):
             role=self.role,
             model_data=self.model_data,
             model_package_arn=model_package.get("ModelPackageArn"),
+            sagemaker_session=self.sagemaker_session,
         )
 
     @runnable_by_pipeline
@@ -600,14 +623,7 @@ api/latest/reference/services/sagemaker.html#SageMaker.Client.add_tags>`_
         )
         deploy_env = copy.deepcopy(self.env)
         if self.source_dir or self.dependencies or self.entry_point or self.git_config:
-            is_repack = (
-                self.source_dir
-                and self.entry_point
-                and not (
-                    (self.key_prefix and issubclass(type(self), FrameworkModel)) or self.git_config
-                )
-            )
-            self._upload_code(deploy_key_prefix, repack=is_repack)
+            self._upload_code(deploy_key_prefix, repack=self.is_repack())
             deploy_env.update(self._script_mode_env_vars())
 
         return sagemaker.container_def(
@@ -616,6 +632,14 @@ api/latest/reference/services/sagemaker.html#SageMaker.Client.add_tags>`_
             deploy_env,
             image_config=self.image_config,
         )
+
+    def is_repack(self) -> bool:
+        """Whether the source code needs to be repacked before uploading to S3.
+
+        Returns:
+            bool: if the source need to be repacked or not
+        """
+        return self.source_dir and self.entry_point and not self.git_config
 
     def _upload_code(self, key_prefix: str, repack: bool = False) -> None:
         """Uploads code to S3 to be used with script mode with SageMaker inference.
@@ -1078,7 +1102,9 @@ api/latest/reference/services/sagemaker.html#SageMaker.Client.add_tags>`_
             input_shape (dict): Specifies the name and shape of the expected
                 inputs for your trained model in json dictionary form, for
                 example: {'data': [1,3,1024,1024]}, or {'var1': [1,1,28,28],
-                'var2': [1,1,28,28]}
+                'var2': [1,1,28,28]}. Input shape is optional for those models traced with torch 2.0,
+                see pytorch section of this document for detail:
+                https://docs.aws.amazon.com/sagemaker/latest/dg/neo-compilation-preparing-model.html
             output_path (str): Specifies where to store the compiled model
             role (str): Execution role
             tags (list[dict]): List of tags for labeling a compilation job. For
@@ -1322,7 +1348,9 @@ api/latest/reference/services/sagemaker.html#SageMaker.Client.add_tags>`_
 
         tags = add_jumpstart_tags(
             tags=tags,
-            inference_model_uri=self.model_data if isinstance(self.model_data, str) else None,
+            inference_model_uri=self.model_data
+            if isinstance(self.model_data, (str, dict))
+            else None,
             inference_script_uri=self.source_dir,
         )
 
@@ -1748,9 +1776,18 @@ class FrameworkModel(Model):
             **kwargs,
         )
 
+    def is_repack(self) -> bool:
+        """Whether the source code needs to be repacked before uploading to S3.
+
+        Returns:
+            bool: if the source need to be repacked or not
+        """
+        return self.source_dir and self.entry_point and not (self.key_prefix or self.git_config)
+
 
 # works for MODEL_PACKAGE_ARN with or without version info.
 MODEL_PACKAGE_ARN_PATTERN = r"arn:aws:sagemaker:(.*?):(.*?):model-package/(.*?)(?:/(\d+))?$"
+MODEL_PACKAGE_VERSIONED_ARN_PATTERN = r"arn:aws:sagemaker:(.*?):(.*?):model-package/(.*?)/(\d+)$"
 
 
 class ModelPackage(Model):
@@ -1885,6 +1922,18 @@ class ModelPackage(Model):
         self._ensure_base_name_if_needed(model_package_name)
         self._set_model_name_if_needed()
 
+        # Quering the approval status for the model package
+        # Approving the versioned model package in case it is not approved
+        model_package_desc = self.sagemaker_session.sagemaker_client.describe_model_package(
+            ModelPackageName=self.model_package_arn or model_package_name
+        )
+        if self.model_package_arn is None:
+            self.model_package_arn = model_package_desc["ModelPackageArn"]
+        if re.match(MODEL_PACKAGE_VERSIONED_ARN_PATTERN, self.model_package_arn):
+            approval_status = model_package_desc.get("ModelApprovalStatus", "")
+            if approval_status != ModelApprovalStatusEnum.APPROVED:
+                self.update_approval_status(approval_status=ModelApprovalStatusEnum.APPROVED)
+
         self.sagemaker_session.create_model(
             self.name,
             self.role,
@@ -1898,3 +1947,29 @@ class ModelPackage(Model):
         """Set the base name if there is no model name provided."""
         if self.name is None:
             self._base_name = base_name
+
+    def update_approval_status(self, approval_status, approval_description=None):
+        """Update the approval status for the model package
+
+        Args:
+            approval_status (str or PipelineVariable): Model Approval Status, values can be
+                "Approved", "Rejected", or "PendingManualApproval".
+            approval_description (str): Optional. Description for the approval status of the model
+                (default: None).
+        """
+
+        # Models can lazy-init sagemaker_session until deploy() is called to support
+        # LocalMode so we must make sure we have an actual session
+        sagemaker_session = self.sagemaker_session or sagemaker.Session()
+        if self.model_package_arn is None:
+            raise ValueError("model_package_arn is required to update the status.")
+
+        update_approval_args = {
+            "ModelPackageArn": self.model_package_arn,
+            "ModelApprovalStatus": approval_status,
+        }
+
+        if approval_description is not None:
+            update_approval_args["ApprovalDescription"] = approval_description
+
+        sagemaker_session.sagemaker_client.update_model_package(**update_approval_args)

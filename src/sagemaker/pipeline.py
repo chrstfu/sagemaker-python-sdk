@@ -335,8 +335,8 @@ class PipelineModel(object):
     @runnable_by_pipeline
     def register(
         self,
-        content_types: List[Union[str, PipelineVariable]],
-        response_types: List[Union[str, PipelineVariable]],
+        content_types: List[Union[str, PipelineVariable]] = None,
+        response_types: List[Union[str, PipelineVariable]] = None,
         inference_instances: Optional[List[Union[str, PipelineVariable]]] = None,
         transform_instances: Optional[List[Union[str, PipelineVariable]]] = None,
         model_package_name: Optional[Union[str, PipelineVariable]] = None,
@@ -408,7 +408,8 @@ class PipelineModel(object):
                 validation. Values can be "All" or "None" (default: None).
 
         Returns:
-            A `sagemaker.model.ModelPackage` instance.
+            If ``sagemaker_session`` is a ``PipelineSession`` instance, returns pipeline step
+                arguments. Otherwise, returns ``None``
         """
         for model in self.models:
             if model.model_data is None:

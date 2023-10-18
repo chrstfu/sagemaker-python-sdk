@@ -54,7 +54,6 @@ ENTRY_POINT_INFERENCE = "inference.py"
 SCRIPT_URI = "s3://codebucket/someprefix/sourcedir.tar.gz"
 IMAGE_URI = "763104351884.dkr.ecr.us-west-2.amazonaws.com/pytorch-inference:1.9.0-gpu-py38"
 
-
 MODEL_DESCRIPTION = "a description"
 
 SUPPORTED_REALTIME_INFERENCE_INSTANCE_TYPES = ["ml.m4.xlarge"]
@@ -703,6 +702,49 @@ def test_repack_code_location_with_key_prefix(repack_model, sagemaker_session):
     t.deploy(instance_type=INSTANCE_TYPE, initial_instance_count=INSTANCE_COUNT)
 
     repack_model.assert_called_once()
+
+
+@patch("sagemaker.utils.repack_model")
+def test_is_repack_with_code_location(repack_model, sagemaker_session):
+
+    code_location = "s3://my-bucket/code/location/"
+
+    model = Model(
+        entry_point=ENTRY_POINT_INFERENCE,
+        role=ROLE,
+        sagemaker_session=sagemaker_session,
+        source_dir=SCRIPT_URI,
+        image_uri=IMAGE_URI,
+        model_data=MODEL_DATA,
+        code_location=code_location,
+    )
+
+    assert model.is_repack()
+
+
+@patch("sagemaker.git_utils.git_clone_repo")
+@patch("sagemaker.model.fw_utils.tar_and_upload_dir")
+def test_is_repack_with_git_config(tar_and_upload_dir, git_clone_repo, sagemaker_session):
+    git_clone_repo.side_effect = lambda gitconfig, entrypoint, sourcedir, dependency: {
+        "entry_point": "entry_point",
+        "source_dir": "/tmp/repo_dir/source_dir",
+        "dependencies": ["/tmp/repo_dir/foo", "/tmp/repo_dir/bar"],
+    }
+
+    entry_point = "entry_point"
+    source_dir = "source_dir"
+    dependencies = ["foo", "bar"]
+    git_config = {"repo": GIT_REPO, "branch": BRANCH, "commit": COMMIT}
+    model = Model(
+        sagemaker_session=sagemaker_session,
+        entry_point=entry_point,
+        source_dir=source_dir,
+        dependencies=dependencies,
+        git_config=git_config,
+        image_uri=IMAGE_URI,
+    )
+
+    assert not model.is_repack()
 
 
 @patch("sagemaker.utils.repack_model")

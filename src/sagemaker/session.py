@@ -11,7 +11,7 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 """Placeholder docstring"""
-from __future__ import absolute_import, print_function
+from __future__ import absolute_import, annotations, print_function
 
 import json
 import logging
@@ -130,6 +130,7 @@ from sagemaker.session_settings import SessionSettings
 LOGGER = logging.getLogger("sagemaker")
 
 NOTEBOOK_METADATA_FILE = "/opt/ml/metadata/resource-metadata.json"
+MODEL_MONITOR_ONE_TIME_SCHEDULE = "NOW"
 _STATUS_CODE_TABLE = {
     "COMPLETED": "Completed",
     "INPROGRESS": "InProgress",
@@ -232,12 +233,13 @@ class Session(object):  # pylint: disable=too-many-public-methods
         self._default_bucket_name_override = default_bucket
         # this may also be set again inside :func:`_initialize` if it is None
         self.default_bucket_prefix = default_bucket_prefix
+        self._default_bucket_set_by_sdk = False
 
         self.s3_resource = None
         self.s3_client = None
         self.resource_groups_client = None
         self.resource_group_tagging_client = None
-        self.config = None
+        self._config = None
         self.lambda_client = None
         self.settings = settings
 
@@ -323,6 +325,16 @@ class Session(object):  # pylint: disable=too-many-public-methods
             config_path=SESSION_DEFAULT_S3_OBJECT_KEY_PREFIX_PATH,
             sagemaker_session=self,
         )
+
+    @property
+    def config(self) -> Dict | None:
+        """The config for the local mode, unused in a normal session"""
+        return self._config
+
+    @config.setter
+    def config(self, value: Dict | None):
+        """The config for the local mode, unused in a normal session"""
+        self._config = value
 
     @property
     def boto_region_name(self):
@@ -544,8 +556,12 @@ class Session(object):  # pylint: disable=too-many-public-methods
         default_bucket = self._default_bucket_name_override
         if not default_bucket:
             default_bucket = generate_default_sagemaker_bucket_name(self.boto_session)
+            self._default_bucket_set_by_sdk = True
 
-        self._create_s3_bucket_if_it_does_not_exist(bucket_name=default_bucket, region=region)
+        self._create_s3_bucket_if_it_does_not_exist(
+            bucket_name=default_bucket,
+            region=region,
+        )
 
         self._default_bucket = default_bucket
 
@@ -617,6 +633,28 @@ class Session(object):  # pylint: disable=too-many-public-methods
                     )
                     raise
                 else:
+                    raise
+
+        if self._default_bucket_set_by_sdk:
+            # make sure the s3 bucket is configured in users account.
+            expected_bucket_owner_id = self.account_id()
+            try:
+                s3.meta.client.head_bucket(
+                    Bucket=bucket_name, ExpectedBucketOwner=expected_bucket_owner_id
+                )
+            except ClientError as e:
+                error_code = e.response["Error"]["Code"]
+                message = e.response["Error"]["Message"]
+                if error_code == "403" and message == "Forbidden":
+                    LOGGER.error(
+                        "Since default_bucket param was not set, SageMaker Python SDK tried to use "
+                        "%s bucket. "
+                        "This bucket cannot be configured to use as it is not owned by Account %s. "
+                        "To unblock it's recommended to use custom default_bucket "
+                        "parameter in sagemaker.Session",
+                        bucket_name,
+                        expected_bucket_owner_id,
+                    )
                     raise
 
     def _append_sagemaker_config_tags(self, tags: list, config_path_to_tags: str):
@@ -1449,6 +1487,8 @@ class Session(object):  # pylint: disable=too-many-public-methods
         network_config=None,
         role_arn=None,
         tags=None,
+        data_analysis_start_time=None,
+        data_analysis_end_time=None,
     ):
         """Create an Amazon SageMaker monitoring schedule.
 
@@ -1487,6 +1527,10 @@ class Session(object):  # pylint: disable=too-many-public-methods
                 Amazon SageMaker can assume to perform tasks on your behalf.
             tags ([dict[str,str]]): A list of dictionaries containing key-value
                 pairs.
+            data_analysis_start_time (str): Start time for the data analysis window
+                for the one time monitoring schedule (NOW), e.g. "-PT1H"
+            data_analysis_end_time (str): End time for the data analysis window
+                for the one time monitoring schedule (NOW), e.g. "-PT1H"
         """
         role_arn = resolve_value_from_config(
             role_arn, MONITORING_JOB_ROLE_ARN_PATH, sagemaker_session=self
@@ -1524,8 +1568,17 @@ class Session(object):  # pylint: disable=too-many-public-methods
 
         if schedule_expression is not None:
             monitoring_schedule_request["MonitoringScheduleConfig"]["ScheduleConfig"] = {
-                "ScheduleExpression": schedule_expression
+                "ScheduleExpression": schedule_expression,
             }
+            if data_analysis_start_time is not None:
+                monitoring_schedule_request["MonitoringScheduleConfig"]["ScheduleConfig"][
+                    "DataAnalysisStartTime"
+                ] = data_analysis_start_time
+
+            if data_analysis_end_time is not None:
+                monitoring_schedule_request["MonitoringScheduleConfig"]["ScheduleConfig"][
+                    "DataAnalysisEndTime"
+                ] = data_analysis_end_time
 
         if monitoring_output_config is not None:
             kms_key_from_config = resolve_value_from_config(
@@ -1626,6 +1679,8 @@ class Session(object):  # pylint: disable=too-many-public-methods
         environment=None,
         network_config=None,
         role_arn=None,
+        data_analysis_start_time=None,
+        data_analysis_end_time=None,
     ):
         """Update an Amazon SageMaker monitoring schedule.
 
@@ -1664,12 +1719,19 @@ class Session(object):  # pylint: disable=too-many-public-methods
                 Amazon SageMaker can assume to perform tasks on your behalf.
             tags ([dict[str,str]]): A list of dictionaries containing key-value
                 pairs.
+            data_analysis_start_time (str): Start time for the data analysis window
+                for the one time monitoring schedule (NOW), e.g. "-PT1H"
+            data_analysis_end_time (str): End time for the data analysis window
+                for the one time monitoring schedule (NOW), e.g. "-PT1H"
         """
         existing_desc = self.sagemaker_client.describe_monitoring_schedule(
             MonitoringScheduleName=monitoring_schedule_name
         )
 
         existing_schedule_config = None
+        existing_data_analysis_start_time = None
+        existing_data_analysis_end_time = None
+
         if (
             existing_desc.get("MonitoringScheduleConfig") is not None
             and existing_desc["MonitoringScheduleConfig"].get("ScheduleConfig") is not None
@@ -1679,8 +1741,41 @@ class Session(object):  # pylint: disable=too-many-public-methods
             existing_schedule_config = existing_desc["MonitoringScheduleConfig"]["ScheduleConfig"][
                 "ScheduleExpression"
             ]
+            if (
+                existing_desc["MonitoringScheduleConfig"]["ScheduleConfig"].get(
+                    "DataAnalysisStartTime"
+                )
+                is not None
+            ):
+                existing_data_analysis_start_time = existing_desc["MonitoringScheduleConfig"][
+                    "ScheduleConfig"
+                ]["DataAnalysisStartTime"]
+            if (
+                existing_desc["MonitoringScheduleConfig"]["ScheduleConfig"].get(
+                    "DataAnalysisEndTime"
+                )
+                is not None
+            ):
+                existing_data_analysis_end_time = existing_desc["MonitoringScheduleConfig"][
+                    "ScheduleConfig"
+                ]["DataAnalysisEndTime"]
 
         request_schedule_expression = schedule_expression or existing_schedule_config
+        request_data_analysis_start_time = (
+            data_analysis_start_time or existing_data_analysis_start_time
+        )
+        request_data_analysis_end_time = data_analysis_end_time or existing_data_analysis_end_time
+
+        if request_schedule_expression == MODEL_MONITOR_ONE_TIME_SCHEDULE and (
+            request_data_analysis_start_time is None or request_data_analysis_end_time is None
+        ):
+            message = (
+                "Both data_analysis_start_time and data_analysis_end_time are required "
+                "for one time monitoring schedule "
+            )
+            LOGGER.error(message)
+            raise ValueError(message)
+
         request_monitoring_inputs = (
             monitoring_inputs
             or existing_desc["MonitoringScheduleConfig"]["MonitoringJobDefinition"][
@@ -1736,8 +1831,18 @@ class Session(object):  # pylint: disable=too-many-public-methods
 
         if existing_schedule_config is not None:
             monitoring_schedule_request["MonitoringScheduleConfig"]["ScheduleConfig"] = {
-                "ScheduleExpression": request_schedule_expression
+                "ScheduleExpression": request_schedule_expression,
             }
+
+            if request_data_analysis_start_time is not None:
+                monitoring_schedule_request["MonitoringScheduleConfig"]["ScheduleConfig"][
+                    "DataAnalysisStartTime"
+                ] = request_data_analysis_start_time
+
+            if request_data_analysis_end_time is not None:
+                monitoring_schedule_request["MonitoringScheduleConfig"]["ScheduleConfig"][
+                    "DataAnalysisEndTime"
+                ] = request_data_analysis_end_time
 
         existing_monitoring_output_config = existing_desc["MonitoringScheduleConfig"][
             "MonitoringJobDefinition"
@@ -5762,8 +5867,8 @@ class Session(object):  # pylint: disable=too-many-public-methods
 
 
 def get_model_package_args(
-    content_types,
-    response_types,
+    content_types=None,
+    response_types=None,
     inference_instances=None,
     transform_instances=None,
     model_package_name=None,
@@ -5831,19 +5936,23 @@ def get_model_package_args(
     else:
         container = {
             "Image": image_uri,
-            "ModelDataUrl": model_data,
         }
+        if model_data is not None:
+            container["ModelDataUrl"] = model_data
+
         containers = [container]
 
     model_package_args = {
         "containers": containers,
-        "content_types": content_types,
-        "response_types": response_types,
         "inference_instances": inference_instances,
         "transform_instances": transform_instances,
         "marketplace_cert": marketplace_cert,
     }
 
+    if content_types is not None:
+        model_package_args["content_types"] = content_types
+    if response_types is not None:
+        model_package_args["response_types"] = response_types
     if model_package_name is not None:
         model_package_args["model_package_name"] = model_package_name
     if model_package_group_name is not None:
