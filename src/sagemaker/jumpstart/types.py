@@ -107,16 +107,21 @@ class JumpStartS3FileType(str, Enum):
 class JumpStartLaunchedRegionInfo(JumpStartDataHolderType):
     """Data class for launched region info."""
 
-    __slots__ = ["content_bucket", "region_name"]
+    __slots__ = ["content_bucket", "region_name", "gated_content_bucket"]
 
-    def __init__(self, content_bucket: str, region_name: str):
+    def __init__(
+        self, content_bucket: str, region_name: str, gated_content_bucket: Optional[str] = None
+    ):
         """Instantiates JumpStartLaunchedRegionInfo object.
 
         Args:
             content_bucket (str): Name of JumpStart s3 content bucket associated with region.
             region_name (str): Name of JumpStart launched region.
+            gated_content_bucket (Optional[str[]): Name of JumpStart gated s3 content bucket
+                optionally associated with region.
         """
         self.content_bucket = content_bucket
+        self.gated_content_bucket = gated_content_bucket
         self.region_name = region_name
 
 
@@ -576,6 +581,56 @@ class JumpStartInstanceTypeVariants(JumpStartDataHolderType):
 
         return instance_family_environment_variables
 
+    def get_instance_specific_default_inference_instance_type(
+        self, instance_type: str
+    ) -> Optional[str]:
+        """Returns instance specific default inference instance type.
+
+        Returns None if a model, instance type tuple does not have instance
+        specific inference instance types.
+        """
+
+        return self._get_instance_specific_property(
+            instance_type, "default_inference_instance_type"
+        )
+
+    def get_instance_specific_supported_inference_instance_types(
+        self, instance_type: str
+    ) -> List[str]:
+        """Returns instance specific supported inference instance types.
+
+        Returns empty list if a model, instance type tuple does not have instance
+        specific inference instance types.
+        """
+
+        if self.variants is None:
+            return []
+
+        instance_specific_inference_instance_types: List[str] = (
+            self.variants.get(instance_type, {})
+            .get("properties", {})
+            .get("supported_inference_instance_types", [])
+        )
+
+        instance_type_family = get_instance_type_family(instance_type)
+
+        instance_family_inference_instance_types: List[str] = (
+            self.variants.get(instance_type_family, {})
+            .get("properties", {})
+            .get("supported_inference_instance_types", [])
+            if instance_type_family not in {"", None}
+            else []
+        )
+
+        return sorted(
+            list(
+                set(
+                    instance_specific_inference_instance_types
+                    + instance_family_inference_instance_types
+                )
+            )
+        )
+
     def get_image_uri(self, instance_type: str, region: str) -> Optional[str]:
         """Returns image uri from instance type and region.
 
@@ -691,6 +746,7 @@ class JumpStartModelSpecs(JumpStartDataHolderType):
         "hosting_instance_type_variants",
         "training_instance_type_variants",
         "default_payloads",
+        "gated_bucket",
     ]
 
     def __init__(self, spec: Dict[str, Any]):
@@ -767,6 +823,7 @@ class JumpStartModelSpecs(JumpStartDataHolderType):
             if json_obj.get("default_payloads")
             else None
         )
+        self.gated_bucket = json_obj.get("gated_bucket", False)
         self.inference_volume_size: Optional[int] = json_obj.get("inference_volume_size")
         self.inference_enable_network_isolation: bool = json_obj.get(
             "inference_enable_network_isolation", False
@@ -964,6 +1021,7 @@ class JumpStartModelInitKwargs(JumpStartKwargs):
         "dependencies",
         "git_config",
         "model_package_arn",
+        "training_instance_type",
     ]
 
     SERIALIZATION_EXCLUSION_SET = {
@@ -974,6 +1032,7 @@ class JumpStartModelInitKwargs(JumpStartKwargs):
         "tolerate_deprecated_model",
         "region",
         "model_package_arn",
+        "training_instance_type",
     }
 
     def __init__(
@@ -1002,6 +1061,7 @@ class JumpStartModelInitKwargs(JumpStartKwargs):
         tolerate_vulnerable_model: Optional[bool] = None,
         tolerate_deprecated_model: Optional[bool] = None,
         model_package_arn: Optional[str] = None,
+        training_instance_type: Optional[str] = None,
     ) -> None:
         """Instantiates JumpStartModelInitKwargs object."""
 
@@ -1029,6 +1089,7 @@ class JumpStartModelInitKwargs(JumpStartKwargs):
         self.tolerate_deprecated_model = tolerate_deprecated_model
         self.tolerate_vulnerable_model = tolerate_vulnerable_model
         self.model_package_arn = model_package_arn
+        self.training_instance_type = training_instance_type
 
 
 class JumpStartModelDeployKwargs(JumpStartKwargs):
@@ -1058,6 +1119,7 @@ class JumpStartModelDeployKwargs(JumpStartKwargs):
         "tolerate_vulnerable_model",
         "tolerate_deprecated_model",
         "sagemaker_session",
+        "training_instance_type",
     ]
 
     SERIALIZATION_EXCLUSION_SET = {
@@ -1067,6 +1129,7 @@ class JumpStartModelDeployKwargs(JumpStartKwargs):
         "tolerate_deprecated_model",
         "tolerate_vulnerable_model",
         "sagemaker_session",
+        "training_instance_type",
     }
 
     def __init__(
@@ -1094,6 +1157,7 @@ class JumpStartModelDeployKwargs(JumpStartKwargs):
         tolerate_deprecated_model: Optional[bool] = None,
         tolerate_vulnerable_model: Optional[bool] = None,
         sagemaker_session: Optional[Session] = None,
+        training_instance_type: Optional[str] = None,
     ) -> None:
         """Instantiates JumpStartModelDeployKwargs object."""
 
@@ -1120,6 +1184,7 @@ class JumpStartModelDeployKwargs(JumpStartKwargs):
         self.tolerate_vulnerable_model = tolerate_vulnerable_model
         self.tolerate_deprecated_model = tolerate_deprecated_model
         self.sagemaker_session = sagemaker_session
+        self.training_instance_type = training_instance_type
 
 
 class JumpStartEstimatorInitKwargs(JumpStartKwargs):
