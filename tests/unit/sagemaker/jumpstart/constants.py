@@ -569,15 +569,15 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
                 "ml.g5.12xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "4"}}},
                 "ml.g5.24xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "4"}}},
                 "ml.g5.48xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "8"}}},
@@ -593,38 +593,38 @@ SPECIAL_MODEL_SPECS_DICT = {
             },
             "variants": {
                 "g4dn": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "huggingface-training/g4dn/v1.0.0/train-hugg"
                         "ingface-llm-gemma-7b-instruct.tar.gz"
                     },
                 },
                 "g5": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "huggingface-training/g5/v1.0.0/train-huggingf"
                         "ace-llm-gemma-7b-instruct.tar.gz"
                     },
                 },
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
                 "p3dn": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "huggingface-training/p3dn/v1.0.0/train-hugg"
                         "ingface-llm-gemma-7b-instruct.tar.gz"
                     },
                 },
                 "p4d": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "huggingface-training/"
                         "p4d/v1.0.0/train-huggingface-llm-gemma-7b-instruct.tar.gz"
                     },
                 },
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
             },
             "hosting_artifact_s3_data_type": "S3Prefix",
             "hosting_artifact_compression_type": "None",
@@ -1187,15 +1187,15 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
                 "ml.g5.12xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "4"}}},
                 "ml.g5.24xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "4"}}},
                 "ml.g5.48xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "8"}}},
@@ -1211,38 +1211,38 @@ SPECIAL_MODEL_SPECS_DICT = {
             },
             "variants": {
                 "g4dn": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "huggingface-training/train-hugg"
                         "ingface-llm-gemma-7b-instruct.tar.gz"
                     },
                 },
                 "g5": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "huggingface-training/train-hugg"
                         "ingface-llm-gemma-7b-instruct.tar.gz"
                     },
                 },
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
                 "p3dn": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "huggingface-training/train-hugg"
                         "ingface-llm-gemma-7b-instruct.tar.gz"
                     },
                 },
                 "p4d": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "huggingface-training/train-hugg"
                         "ingface-llm-gemma-7b-instruct.tar.gz"
                     },
                 },
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
             },
             "hosting_artifact_s3_data_type": "S3Prefix",
             "hosting_artifact_compression_type": "None",
@@ -1390,15 +1390,15 @@ SPECIAL_MODEL_SPECS_DICT = {
                 }
             },
             "variants": {
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
                 "ml.g5.48xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "80"}}},
                 "ml.p4d.24xlarge": {
                     "properties": {
@@ -1579,7 +1579,7 @@ SPECIAL_MODEL_SPECS_DICT = {
                     }
                 },
                 "p2": {
-                    "regional_properties": {"image_uri": "$gpu_image_uri"},
+                    "properties": {"image_uri": "$gpu_image_uri"},
                     "properties": {
                         "supported_inference_instance_types": ["ml.p2.xlarge", "ml.p3.xlarge"],
                         "default_inference_instance_type": "ml.p2.xlarge",
@@ -1603,23 +1603,23 @@ SPECIAL_MODEL_SPECS_DICT = {
                         ],
                     },
                 },
-                "p3": {"regional_properties": {"image_uri": "$gpu_image_uri"}},
-                "ml.p3.200xlarge": {"regional_properties": {"image_uri": "$gpu_image_uri_2"}},
+                "p3": {"properties": {"image_uri": "$gpu_image_uri"}},
+                "ml.p3.200xlarge": {"properties": {"image_uri": "$gpu_image_uri_2"}},
                 "p4": {
-                    "regional_properties": {"image_uri": "$gpu_image_uri"},
+                    "properties": {"image_uri": "$gpu_image_uri"},
                     "properties": {
                         "prepacked_artifact_key": "path/to/prepacked/inference/artifact/prefix/number2/"
                     },
                 },
                 "g4": {
-                    "regional_properties": {"image_uri": "$gpu_image_uri"},
+                    "properties": {"image_uri": "$gpu_image_uri"},
                     "properties": {
                         "artifact_key": "path/to/prepacked/training/artifact/prefix/number2/"
                     },
                 },
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_image_uri"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_image_uri"}},
                 "g9": {
-                    "regional_properties": {"image_uri": "$gpu_image_uri"},
+                    "properties": {"image_uri": "$gpu_image_uri"},
                     "properties": {
                         "prepacked_artifact_key": "asfs/adsf/sda/f",
                         "hyperparameters": [
@@ -1689,15 +1689,15 @@ SPECIAL_MODEL_SPECS_DICT = {
                     },
                 },
                 "p9": {
-                    "regional_properties": {"image_uri": "$gpu_image_uri"},
+                    "properties": {"image_uri": "$gpu_image_uri"},
                     "properties": {"artifact_key": "do/re/mi"},
                 },
                 "m2": {
-                    "regional_properties": {"image_uri": "$cpu_image_uri"},
+                    "properties": {"image_uri": "$cpu_image_uri"},
                     "properties": {"environment_variables": {"TENSOR_PARALLEL_DEGREE": "400"}},
                 },
-                "c2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
-                "local": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
+                "c2": {"properties": {"image_uri": "$cpu_image_uri"}},
+                "local": {"properties": {"image_uri": "$cpu_image_uri"}},
                 "ml.g5.48xlarge": {
                     "properties": {"environment_variables": {"TENSOR_PARALLEL_DEGREE": "8"}}
                 },
@@ -1953,7 +1953,7 @@ SPECIAL_MODEL_SPECS_DICT = {
                     }
                 },
                 "p2": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_2"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_2"},
                     "properties": {
                         "hyperparameters": [
                             {
@@ -2053,25 +2053,25 @@ SPECIAL_MODEL_SPECS_DICT = {
             },
             "variants": {
                 "p2": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                         "model_package_arn": "$gpu_model_package_arn",
                     }
                 },
                 "p3": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                         "model_package_arn": "$gpu_model_package_arn",
                     }
                 },
                 "p4": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                         "model_package_arn": "$gpu_model_package_arn",
                     }
                 },
                 "g4dn": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                         "model_package_arn": "$gpu_model_package_arn",
                     }
@@ -2084,8 +2084,8 @@ SPECIAL_MODEL_SPECS_DICT = {
                         }
                     }
                 },
-                "m2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
-                "c2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
+                "m2": {"properties": {"image_uri": "$cpu_image_uri"}},
+                "c2": {"properties": {"image_uri": "$cpu_image_uri"}},
                 "ml.g5.xlarge": {
                     "properties": {
                         "environment_variables": {"TENSOR_PARALLEL_DEGREE": "8"},
@@ -2098,8 +2098,8 @@ SPECIAL_MODEL_SPECS_DICT = {
                 "ml.g5.12xlarge": {
                     "properties": {"environment_variables": {"TENSOR_PARALLEL_DEGREE": "4"}}
                 },
-                "inf1": {"regional_properties": {"model_package_arn": "$inf_model_package_arn"}},
-                "inf2": {"regional_properties": {"model_package_arn": "$inf_model_package_arn"}},
+                "inf1": {"properties": {"model_package_arn": "$inf_model_package_arn"}},
+                "inf2": {"properties": {"model_package_arn": "$inf_model_package_arn"}},
             },
         },
         "training_ecr_specs": {
@@ -2677,30 +2677,30 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "c4": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5n": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c6i": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "g4dn": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "inf1": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "inf2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "local": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m4": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "r5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "r5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "t2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "t3": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c4": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5n": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c6i": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "inf1": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "inf2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "local": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m4": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "r5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "r5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "t2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "t3": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
                 "ml.inf2.xlarge": {
                     "properties": {
                         "environment_variables": {
@@ -2845,24 +2845,24 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
                 "trn1": {
-                    "regional_properties": {"image_uri": "$neuron_ecr_uri"},
+                    "properties": {"image_uri": "$neuron_ecr_uri"},
                     "properties": {
                         "gated_model_key_env_var_value": "meta-training/trn1/v1.0."
                         "0/train-meta-textgenerationneuron-llama-2-7b.tar.gz"
                     },
                 },
                 "trn1n": {
-                    "regional_properties": {"image_uri": "$neuron_ecr_uri"},
+                    "properties": {"image_uri": "$neuron_ecr_uri"},
                     "properties": {
                         "gated_model_key_env_var_value": "meta-training/trn1n/v1.0.0"
                         "/train-meta-textgenerationneuron-llama-2-7b.tar.gz"
@@ -2899,7 +2899,7 @@ SPECIAL_MODEL_SPECS_DICT = {
             },
             "variants": {
                 "p2": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                     },
                     "properties": {
@@ -2907,22 +2907,22 @@ SPECIAL_MODEL_SPECS_DICT = {
                     },
                 },
                 "p3": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                     }
                 },
                 "p4": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                     }
                 },
                 "g4dn": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                     }
                 },
-                "m2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
-                "c2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
+                "m2": {"properties": {"image_uri": "$cpu_image_uri"}},
+                "c2": {"properties": {"image_uri": "$cpu_image_uri"}},
                 "ml.g5.48xlarge": {
                     "properties": {"environment_variables": {"TENSOR_PARALLEL_DEGREE": "8"}}
                 },
@@ -3122,14 +3122,14 @@ SPECIAL_MODEL_SPECS_DICT = {
             },
             "variants": {
                 "p2": {
-                    "regional_properties": {"image_uri": "$gpu_image_uri"},
+                    "properties": {"image_uri": "$gpu_image_uri"},
                     "properties": {"prepacked_artifact_key": "hello-world-1"},
                 },
-                "p3": {"regional_properties": {"image_uri": "$gpu_image_uri"}},
-                "p4": {"regional_properties": {"image_uri": "$gpu_image_uri"}},
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_image_uri"}},
-                "m2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
-                "c2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
+                "p3": {"properties": {"image_uri": "$gpu_image_uri"}},
+                "p4": {"properties": {"image_uri": "$gpu_image_uri"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_image_uri"}},
+                "m2": {"properties": {"image_uri": "$cpu_image_uri"}},
+                "c2": {"properties": {"image_uri": "$cpu_image_uri"}},
                 "ml.g5.48xlarge": {
                     "properties": {"environment_variables": {"TENSOR_PARALLEL_DEGREE": "8"}}
                 },
@@ -3153,14 +3153,14 @@ SPECIAL_MODEL_SPECS_DICT = {
             },
             "variants": {
                 "p2": {
-                    "regional_properties": {"image_uri": "$gpu_image_uri"},
+                    "properties": {"image_uri": "$gpu_image_uri"},
                     "properties": {"artifact_key": "hello-mars-1"},
                 },
-                "p3": {"regional_properties": {"image_uri": "$gpu_image_uri"}},
-                "p4": {"regional_properties": {"image_uri": "$gpu_image_uri"}},
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_image_uri"}},
-                "m2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
-                "c2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
+                "p3": {"properties": {"image_uri": "$gpu_image_uri"}},
+                "p4": {"properties": {"image_uri": "$gpu_image_uri"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_image_uri"}},
+                "m2": {"properties": {"image_uri": "$cpu_image_uri"}},
+                "c2": {"properties": {"image_uri": "$cpu_image_uri"}},
                 "ml.g5.48xlarge": {
                     "properties": {"environment_variables": {"TENSOR_PARALLEL_DEGREE": "8"}}
                 },
@@ -3355,39 +3355,39 @@ SPECIAL_MODEL_SPECS_DICT = {
             },
             "variants": {
                 "p2": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                         "model_package_arn": "$gpu_model_package_arn",
                     }
                 },
                 "p3": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                         "model_package_arn": "$gpu_model_package_arn",
                     }
                 },
                 "p4": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                         "model_package_arn": "$gpu_model_package_arn",
                     }
                 },
                 "g4dn": {
-                    "regional_properties": {
+                    "properties": {
                         "image_uri": "$gpu_image_uri",
                         "model_package_arn": "$gpu_model_package_arn",
                     }
                 },
-                "m2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
-                "c2": {"regional_properties": {"image_uri": "$cpu_image_uri"}},
+                "m2": {"properties": {"image_uri": "$cpu_image_uri"}},
+                "c2": {"properties": {"image_uri": "$cpu_image_uri"}},
                 "ml.g5.48xlarge": {
                     "properties": {"environment_variables": {"TENSOR_PARALLEL_DEGREE": "8"}}
                 },
                 "ml.g5.12xlarge": {
                     "properties": {"environment_variables": {"TENSOR_PARALLEL_DEGREE": "4"}}
                 },
-                "inf1": {"regional_properties": {"model_package_arn": "$inf_model_package_arn"}},
-                "inf2": {"regional_properties": {"model_package_arn": "$inf_model_package_arn"}},
+                "inf1": {"properties": {"model_package_arn": "$inf_model_package_arn"}},
+                "inf2": {"properties": {"model_package_arn": "$inf_model_package_arn"}},
             },
         },
         "training_ecr_specs": {
@@ -4602,15 +4602,15 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
                 "ml.g5.12xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "4"}}},
                 "ml.g5.24xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "4"}}},
                 "ml.g5.48xlarge": {"properties": {"environment_variables": {"SM_NUM_GPUS": "8"}}},
@@ -4625,21 +4625,21 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
                 "g5": {
-                    "regional_properties": {"image_uri": "$gpu_ecr_uri_1"},
+                    "properties": {"image_uri": "$gpu_ecr_uri_1"},
                     "properties": {
                         "gated_model_key_env_var_value": "meta-training/train-meta-textgeneration-llama-2-7b.tar.gz",
                         "environment_variables": {"SELF_DESTRUCT": "true"},
                     },
                 },
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_1"}},
             },
         },
         "dynamic_container_deployment_supported": False,
@@ -5091,28 +5091,28 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "c4": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "c5": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "c5d": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "c5n": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "c6i": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "g5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "local": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "m4": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "m5": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "m5d": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p3dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p4d": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "r5": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "r5d": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "t2": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "t3": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c4": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c5": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c5d": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c5n": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c6i": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "g5": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "local": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "m4": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "m5": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "m5d": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p3dn": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p4d": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "r5": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "r5d": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "t2": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "t3": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
             },
         },
         "training_instance_type_variants": {
@@ -5239,28 +5239,28 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "c4": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "c5": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "c5d": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "c5n": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "c6i": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "g4dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "g5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "local": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "m4": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "m5": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "m5d": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p3": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p3dn": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p4d": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p4de": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "p5": {"regional_properties": {"image_uri": "$gpu_ecr_uri_2"}},
-                "r5": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "r5d": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "t2": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
-                "t3": {"regional_properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c4": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c5": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c5d": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c5n": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "c6i": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "g5": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "local": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "m4": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "m5": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "m5d": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p3": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p3dn": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p4d": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p4de": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "p5": {"properties": {"image_uri": "$gpu_ecr_uri_2"}},
+                "r5": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "r5d": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "t2": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
+                "t3": {"properties": {"image_uri": "$cpu_ecr_uri_1"}},
             },
         },
     },
@@ -5399,30 +5399,30 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "c4": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5n": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c6i": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "g4dn": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "inf1": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "inf2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "local": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m4": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "r5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "r5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "t2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "t3": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c4": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5n": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c6i": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "inf1": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "inf2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "local": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m4": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "r5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "r5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "t2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "t3": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
             },
         },
     },
@@ -5565,30 +5565,30 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "c4": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5n": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c6i": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "g4dn": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "inf1": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "inf2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "local": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m4": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "r5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "r5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "t2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "t3": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c4": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5n": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c6i": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "inf1": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "inf2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "local": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m4": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "r5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "r5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "t2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "t3": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
             },
         },
     },
@@ -5727,30 +5727,30 @@ SPECIAL_MODEL_SPECS_DICT = {
                 },
             },
             "variants": {
-                "c4": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c5n": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "c6i": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "g4dn": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "g5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "inf1": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "inf2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "local": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "local_gpu": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m4": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "m5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p3": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p3dn": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p4d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p4de": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "p5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "r5": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "r5d": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "t2": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
-                "t3": {"regional_properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c4": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c5n": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "c6i": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "g4dn": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "g5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "inf1": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "inf2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "local": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "local_gpu": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m4": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "m5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p3": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p3dn": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p4d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p4de": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "p5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "r5": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "r5d": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "t2": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
+                "t3": {"properties": {"image_uri": "$alias_ecr_uri_1"}},
             },
         },
     },
@@ -7630,42 +7630,140 @@ BASE_PROPRIETARY_SPEC = {
 HUB_CONTENT_DOCUMENT_MODEL_CONTENT_TYPE_DICTS = {
   "meta-textgeneration-llama-2-70b": {
     "Url": "https://ai.meta.com/resources/models-and-libraries/llama-downloads/",
-    "MinSdkVersion": "2.173.0",
-    "TrainingSupported": false,
-    "IncrementalTrainingSupported": false,
-    "HostingEcrUri": { # TODO
-        "framework": "djl-deepspeed",
-        "framework_version": "0.22.1",
-        "py_version": "py39"
-    },
-    "HostingArtifactUri": "meta-infer/infer-meta-textgeneration-llama-2-70b.tar.gz",
-    "HostingScriptUri": "source-directory-tarballs/meta/inference/textgeneration/v1.1.0/sourcedir.tar.gz",
+    "MinSdkVersion": "2.198.0",
+    "TrainingSupported": True,
+    "IncrementalTrainingSupported": False,
+    "HostingEcrUri": "763104351884.dkr.ecr.us-west-2.amazonaws.com/huggingface-pytorch-tgi-inference:2.1.1-tgi1.4.0-gpu-py310-cu121-ubuntu20.04",
+    "HostingArtifactUri": "meta-textgeneration/meta-textgeneration-llama-2-70b/artifacts/inference/v1.0.0/",
+    "HostingScriptUri": "source-directory-tarballs/meta/inference/textgeneration/v1.2.3/sourcedir.tar.gz",
+    "HostingPrepackedArtifactUri": "meta-textgeneration/meta-textgeneration-llama-2-70b/artifacts/inference-prepack/v1.0.0/",
+    "HostingPrepackedArtifactVersion": "1.0.0",
+    "HostingScriptUri": False,
     "HostingEulaUri": "fmhMetadata/eula/llamaEula.txt",
-    "HostingModelPackageArn": { # TODO: Find region
-        "us-west-2": "arn:aws:sagemaker:us-west-2:594846645681:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
-        "us-east-1": "arn:aws:sagemaker:us-east-1:865070037744:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
-        "eu-west-1": "arn:aws:sagemaker:eu-west-1:985815980388:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
-        "ap-southeast-1": "arn:aws:sagemaker:ap-southeast-1:192199979996:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
-        "us-east-2": "arn:aws:sagemaker:us-east-2:057799348421:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
-        "ap-southeast-2": "arn:aws:sagemaker:ap-southeast-2:666831318237:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef"
-    },
-    "InferenceDependencies": [
+    "InferenceDependencies": [],
+    "TrainingDependencies": [
         "accelerate==0.21.0",
+        "bitsandbytes==0.39.1",
+        "black==23.7.0",
+        "brotli==1.0.9",
+        "datasets==2.14.1",
+        "fire==0.5.0",
+        "huggingface-hub==0.20.3",
+        "inflate64==0.3.1",
+        "loralib==0.1.1",
+        "multivolumefile==0.2.3",
+        "mypy-extensions==1.0.0",
+        "nvidia-cublas-cu12==12.1.3.1",
+        "nvidia-cuda-cupti-cu12==12.1.105",
+        "nvidia-cuda-nvrtc-cu12==12.1.105",
+        "nvidia-cuda-runtime-cu12==12.1.105",
+        "nvidia-cudnn-cu12==8.9.2.26",
+        "nvidia-cufft-cu12==11.0.2.54",
+        "nvidia-curand-cu12==10.3.2.106",
+        "nvidia-cusolver-cu12==11.4.5.107",
+        "nvidia-cusolver-cu12==11.4.5.107",
+        "nvidia-cusparse-cu12==12.1.0.106",
+        "nvidia-nccl-cu12==2.19.3",
+        "nvidia-nvjitlink-cu12==12.3.101",
+        "nvidia-nvtx-cu12==12.1.105",
+        "pathspec==0.11.1",
+        "peft==0.4.0",
+        "py7zr==0.20.5",
+        "pybcj==1.0.1",
+        "pycryptodomex==3.18.0",
+        "pyppmd==1.0.0",
+        "pyzstd==0.15.9",
         "safetensors==0.3.1",
-        "sagemaker_jumpstart_huggingface_script_utilities==1.0.7",
-        "sagemaker_jumpstart_script_utilities==1.1.8",
-        "transformers==4.31.0"
+        "sagemaker_jumpstart_huggingface_script_utilities==1.1.4",
+        "sagemaker_jumpstart_script_utilities==1.1.9",
+        "scipy==1.11.1",
+        "termcolor==2.3.0",
+        "texttable==1.6.7",
+        "tokenize-rt==5.1.0",
+        "tokenizers==0.13.3",
+        "torch==2.2.0",
+        "transformers==4.33.3",
+        "triton==2.2.0",
+        "typing-extensions==4.8.0"
     ],
-    "TrainingDependencies": [],
-    "InferenceEnvironmentVariables": [],
-    "TrainingMetrics": [],
+    "Hyperparameters": [
+        {
+            "Name": "epoch",
+            "Type": "int",
+            "Default": 5,
+            "Min": 1,
+            "Max": 1000,
+            "Scope": "algorithm"
+        },
+        {
+            "Name": "learning_rate",
+            "Type": "float",
+            "Default": 0.0001,
+            "Min": 1e-08,
+            "Max": 1,
+            "Scope": "algorithm"
+        },
+        {
+            "Name": "instruction_tuned",
+            "Type": "text",
+            "Default": "False",
+            "Options": [
+                "True",
+                "False"
+            ],
+            "Scope": "algorithm"
+        }
+    ],
+    "TrainingScriptUri": "source-directory-tarballs/meta/transfer_learning/textgeneration/v1.0.11/sourcedir.tar.gz",
+    "TrainingPrepackedScriptUri": "source-directory-tarballs/meta/transfer_learning/textgeneration/prepack/v1.0.5/sourcedir.tar.gz",
+    "TrainingPrepackedScriptVersion": "1.0.5",
+    "TrainingEcrUri": "763104351884.dkr.ecr.us-west-2.amazonaws.com/huggingface-pytorch-tgi-inference:2.1.1-tgi1.4.0-gpu-py310-cu121-ubuntu20.04",
+    "TrainingArtifactUri": "meta-training/train-meta-textgeneration-llama-2-70b.tar.gz",
+    "InferenceEnvironmentVariables": [
+        {
+            "name": "SAGEMAKER_PROGRAM",
+            "type": "text",
+            "default": "inference.py",
+            "scope": "container",
+            "required_for_model_class": True
+        },
+        {
+            "name": "ENDPOINT_SERVER_TIMEOUT",
+            "type": "int",
+            "default": 3600,
+            "scope": "container",
+            "required_for_model_class": True
+        }
+    ],
+    "TrainingMetrics": [
+        {
+            "Name": "huggingface-textgeneration:eval-loss",
+            "Regex": "eval_epoch_loss=tensor\\(([0-9\\.]+)"
+        },
+        {
+            "Name": "huggingface-textgeneration:eval-ppl",
+            "Regex": "eval_ppl=tensor\\(([0-9\\.]+)"
+        },
+        {
+            "Name": "huggingface-textgeneration:train-loss",
+            "Regex": "train_epoch_loss=([0-9\\.]+)"
+        }
+    ],
     "DefaultInferenceInstanceType": "ml.g5.48xlarge",
+    "supported_inference_instance_types": [
+        "ml.g5.48xlarge",
+        "ml.p4d.24xlarge"
+    ],
+    "default_training_instance_type": "ml.g5.48xlarge",
     "SupportedInferenceInstanceTypes": [
         "ml.g5.48xlarge",
         "ml.p4d.24xlarge"
     ],
-    "ModelDataDownloadTimeout": 3600,
-    "ContainerStartupHealthCheckTimeout": 3600,
+    "ModelDataDownloadTimeout": 1200,
+    "ContainerStartupHealthCheckTimeout": 1200,
+    "EncryptInterContainerTraffic": True,
+    "DisableOutputCompression": True,
+    "MaxRuntimeInSeconds": 360000,
     "SageMakerSdkPredictorSpecifications": {
         "SupportedContentTypes": [
             "application/json"
@@ -7677,9 +7775,196 @@ HUB_CONTENT_DOCUMENT_MODEL_CONTENT_TYPE_DICTS = {
         "DefaultAcceptType": "application/json"
     },
     "InferenceVolumeSize": 256,
-    "InferenceEnableNetworkIsolation": true,
-    "ValidationSupported": false,
-    "FineTuningSupported": false,
-    "ResourceNameBase": "meta-textgeneration-llama-2-70b"
+    "TrainingVolumeSize": 256,
+    "InferenceEnableNetworkIsolation": True,
+    "TrainingEnableNetworkIsolation": True,
+    "DefaultTrainingDatasetUri": "training-datasets/sec_amazon/",
+    "ValidationSupported": True,
+    "FineTuningSupported": True,
+    "ResourceNameBase": "meta-textgeneration-llama-2-70b",
+    "DefaultPayloads": {
+        "meaningOfLife": {
+            "ContentType": "application/json",
+            "PromptKey": "inputs",
+            "OutputKeys": {
+                "generated_text": "[0].generated_text",
+                "input_logprobs": "[0].details.prefill[*].logprob"
+            },
+            "Body": {
+                "inputs": "I believe the meaning of life is",
+                "parameters": {
+                    "max_new_tokens": 64,
+                    "top_p": 0.9,
+                    "temperature": 0.6,
+                    "decoder_input_details": True,
+                    "details": True
+                }
+            }
+        },
+        "theoryOfRelativity": {
+            "ContentType": "application/json",
+            "PromptKey": "inputs",
+            "OutputKeys": {
+                "generated_text": "[0].generated_text"
+            },
+            "Body": {
+                "inputs": "Simply put, the theory of relativity states that ",
+                "parameters": {
+                    "max_new_tokens": 64,
+                    "top_p": 0.9,
+                    "temperature": 0.6
+                }
+            }
+        }
+    },
+    "GatedBucket": True,
+    "HostingInstanceTypeVariants": {
+        "Aliases": {
+                "gpu_ecr_uri_1": "763104351884.dkr.ecr.us-west-2.amazonaws.com/huggingface-pytorch-tgi-inference:2.1.1-tgi1.4.0-gpu-py310-cu121-ubuntu20.04"
+        },
+        "Variants": {
+            "g4dn": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "g5": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "local_gpu": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p2": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p3": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p3dn": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p4d": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p4de": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p5": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "ml.g5.12xlarge": {
+                "properties": {
+                    "environment_variables": {
+                        "SM_NUM_GPUS": "4"
+                    }
+                }
+            },
+            "ml.g5.24xlarge": {
+                "properties": {
+                    "environment_variables": {
+                        "SM_NUM_GPUS": "4"
+                    }
+                }
+            },
+            "ml.g5.48xlarge": {
+                "properties": {
+                    "environment_variables": {
+                        "SM_NUM_GPUS": "8"
+                    }
+                }
+            },
+            "ml.p4d.24xlarge": {
+                "properties": {
+                    "environment_variables": {
+                        "SM_NUM_GPUS": "8"
+                    }
+                }
+            }
+        }
+    },
+    "TrainingInstanceTypeVariants": {
+        "Aliases": {
+                "gpu_ecr_uri_1": "763104351884.dkr.ecr.us-west-2.amazonaws.com/huggingface-pytorch-training:2.0.0-transformers4.28.1-gpu-py310-cu118-ubuntu20.04"
+        },
+        "Variants": {
+            "g4dn": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "g5": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                },
+                "properties": {
+                    "gated_model_key_env_var_value": "meta-training/g5/v1.0.0/train-meta-textgeneration-llama-2-70b.tar.gz"
+                }
+            },
+            "local_gpu": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p2": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p3": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p3dn": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p4d": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                },
+                "properties": {
+                    "gated_model_key_env_var_value": "meta-training/p4d/v1.0.0/train-meta-textgeneration-llama-2-70b.tar.gz"
+                }
+            },
+            "p4de": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            },
+            "p5": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_1"
+                }
+            }
+        }
+    },
+    "HostingArtifactS3DataType": "S3Prefix",
+    "HostingArtifactCompressionType": "None",
+    "HostingResourceRequirements": {
+        "MinMemoryMb": 393216,
+        "NumAccelerators": 8
+    },
+    "DynamicContainerDeploymentSupported": True,
+    "Task": "text generation",
+    "DataType": "text",
+    "Framework": "meta",
 }
 }
