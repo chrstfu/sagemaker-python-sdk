@@ -7626,3 +7626,60 @@ BASE_PROPRIETARY_SPEC = {
         "sa-east-1": "arn:aws:sagemaker:sa-east-1:270155090741:model-package/j2-light-v2-0-004",
     },
 }
+
+HUB_CONTENT_DOCUMENT_MODEL_CONTENT_TYPE_DICTS = {
+  "meta-textgeneration-llama-2-70b": {
+    "Url": "https://ai.meta.com/resources/models-and-libraries/llama-downloads/",
+    "MinSdkVersion": "2.173.0",
+    "TrainingSupported": false,
+    "IncrementalTrainingSupported": false,
+    "HostingEcrUri": { # TODO
+        "framework": "djl-deepspeed",
+        "framework_version": "0.22.1",
+        "py_version": "py39"
+    },
+    "HostingArtifactUri": "meta-infer/infer-meta-textgeneration-llama-2-70b.tar.gz",
+    "HostingScriptUri": "source-directory-tarballs/meta/inference/textgeneration/v1.1.0/sourcedir.tar.gz",
+    "HostingEulaUri": "fmhMetadata/eula/llamaEula.txt",
+    "HostingModelPackageArn": { # TODO: Find region
+        "us-west-2": "arn:aws:sagemaker:us-west-2:594846645681:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
+        "us-east-1": "arn:aws:sagemaker:us-east-1:865070037744:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
+        "eu-west-1": "arn:aws:sagemaker:eu-west-1:985815980388:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
+        "ap-southeast-1": "arn:aws:sagemaker:ap-southeast-1:192199979996:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
+        "us-east-2": "arn:aws:sagemaker:us-east-2:057799348421:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef",
+        "ap-southeast-2": "arn:aws:sagemaker:ap-southeast-2:666831318237:model-package/llama2-70b-v2-df8ba9c4f3173157b743f7439ccc73ef"
+    },
+    "InferenceDependencies": [
+        "accelerate==0.21.0",
+        "safetensors==0.3.1",
+        "sagemaker_jumpstart_huggingface_script_utilities==1.0.7",
+        "sagemaker_jumpstart_script_utilities==1.1.8",
+        "transformers==4.31.0"
+    ],
+    "TrainingDependencies": [],
+    "InferenceEnvironmentVariables": [],
+    "TrainingMetrics": [],
+    "DefaultInferenceInstanceType": "ml.g5.48xlarge",
+    "SupportedInferenceInstanceTypes": [
+        "ml.g5.48xlarge",
+        "ml.p4d.24xlarge"
+    ],
+    "ModelDataDownloadTimeout": 3600,
+    "ContainerStartupHealthCheckTimeout": 3600,
+    "SageMakerSdkPredictorSpecifications": {
+        "SupportedContentTypes": [
+            "application/json"
+        ],
+        "SupportedAcceptTypes": [
+            "application/json"
+        ],
+        "DefaultContentType": "application/json",
+        "DefaultAcceptType": "application/json"
+    },
+    "InferenceVolumeSize": 256,
+    "InferenceEnableNetworkIsolation": true,
+    "ValidationSupported": false,
+    "FineTuningSupported": false,
+    "ResourceNameBase": "meta-textgeneration-llama-2-70b"
+}
+}
