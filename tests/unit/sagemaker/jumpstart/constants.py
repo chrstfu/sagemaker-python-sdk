@@ -7966,5 +7966,216 @@ HUB_CONTENT_DOCUMENT_MODEL_CONTENT_TYPE_DICTS = {
     "Task": "text generation",
     "DataType": "text",
     "Framework": "meta"
+  },
+  "huggingface-textembedding-bloom-7b1": {
+    "Url": "https://huggingface.co/bigscience/bloom-7b1",
+    "MinSdkVersion": "2.144.0",
+    "TrainingSupported": False,
+    "IncrementalTrainingSupported": False,
+    "HostingEcrUri": "763104351884.dkr.ecr.us-west-2.amazonaws.com/huggingface-pytorch-tgi-inference:2.1.1-tgi1.4.0-gpu-py310-cu121-ubuntu20.04",
+    "HostingArtifactUri": "huggingface-infer/infer-huggingface-textembedding-bloom-7b1.tar.gz",
+    "HostingScriptUri": "source-directory-tarballs/huggingface/inference/textembedding/v1.0.1/sourcedir.tar.gz",
+    "HostingPrepackedArtifactUri": "huggingface-infer/prepack/v1.0.1/infer-prepack-huggingface-textembedding-bloom-7b1.tar.gz",
+    "HostingPrepackedArtifactVersion": "1.0.1",
+    "InferenceDependencies": [
+        "accelerate==0.16.0",
+        "bitsandbytes==0.37.0",
+        "filelock==3.9.0",
+        "huggingface_hub==0.12.0",
+        "regex==2022.7.9",
+        "tokenizers==0.13.2",
+        "transformers==4.26.0"
+    ],
+    "TrainingDependencies": [],
+    "InferenceEnvironmentVariables": [
+        {
+            "Name": "SAGEMAKER_PROGRAM",
+            "Type": "text",
+            "Default": "inference.py",
+            "Scope": "container",
+            "RequiredForModelClass": True
+        }
+    ],
+    "TrainingMetrics": [],
+    "DefaultInferenceInstanceType": "ml.g5.12xlarge",
+    "SupportedInferenceInstanceTypes": [
+        "ml.g5.12xlarge",
+        "ml.g5.24xlarge",
+        "ml.p3.8xlarge",
+        "ml.p3.16xlarge",
+        "ml.g4dn.12xlarge"
+    ],
+    "deploy_kwargs": {
+        "ModelDataDownloadTimeout": 3600,
+        "ContainerStartupHealthCheckTimeout": 3600
+    },
+    "SageMakerSdkPredictorSpecifications": {
+        "SupportedContentTypes": [
+            "application/json",
+            "application/x-text"
+        ],
+        "SupportedAcceptTypes": [
+            "application/json;verbose",
+            "application/json"
+        ],
+        "DefaultContentType": "application/json",
+        "DefaultAcceptType": "application/json"
+    },
+    "InferenceVolumeSize": 256,
+    "InferenceEnableNetworkIsolation": True,
+    "ValidationSupported": False,
+    "FineTuningSupported": False,
+    "ResourceNameBase": "hf-textembedding-bloom-7b1",
+    "HostingInstanceTypeVariants": {
+        "Aliases": {
+            "alias_ecr_uri_3": "763104351884.dkr.ecr.us-west-2.amazonaws.com/pytorch-training-neuron:1.11.0-neuron-py38-sdk2.4.0-ubuntu20.04",
+            "cpu_ecr_uri_1": "763104351884.dkr.ecr.us-west-2.amazonaws.com/pytorch-inference:1.12.0-cpu-py38",
+            "gpu_ecr_uri_2": "763104351884.dkr.ecr.us-west-2.amazonaws.com/pytorch-inference:1.12.0-gpu-py38"
+        },
+        "Variants": {
+            "c4": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "c5": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "c5d": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "c5n": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "c6i": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "c7i": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "g4dn": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "g5": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "local": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "local_gpu": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "m4": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "m5": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "m5d": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "m6i": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "m7i": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "p2": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "p3": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "p3dn": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "p4d": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "p4de": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "p5": {
+                "properties": {
+                    "image_uri": "$gpu_ecr_uri_2"
+                }
+            },
+            "r5": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "r5d": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "r7i": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "t2": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "t3": {
+                "properties": {
+                    "image_uri": "$cpu_ecr_uri_1"
+                }
+            },
+            "trn1": {
+                "properties": {
+                    "image_uri": "$alias_ecr_uri_3"
+                }
+            },
+            "trn1n": {
+                "properties": {
+                    "image_uri": "$alias_ecr_uri_3"
+                }
+            }
+        }
+    },
+    "DynamicContainerDeploymentSupported": False,
+    "License": "BigScience RAIL",
 }
 }
