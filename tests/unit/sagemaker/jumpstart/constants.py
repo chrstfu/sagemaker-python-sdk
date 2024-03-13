@@ -7965,6 +7965,6 @@ HUB_CONTENT_DOCUMENT_MODEL_CONTENT_TYPE_DICTS = {
     "DynamicContainerDeploymentSupported": True,
     "Task": "text generation",
     "DataType": "text",
-    "Framework": "meta",
+    "Framework": "meta"
 }
 }
