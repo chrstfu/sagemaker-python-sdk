@@ -251,26 +251,28 @@ def find_jumpstart_tags_for_model_version(model_id: str, version: str, region: s
     
 
 def get_jumpstart_model_and_version(hub_content_summary: HubContentSummary) -> Optional[JumpStartModelInfo]:
-    jumpstart_model_id = next(
+    jumpstart_model_id_tag = next(
         (
             tag
-            for tag in hub_content_summary.search_keywords
+            for tag in hub_content_summary.hub_content_search_keywords
             if tag.startswith(JUMPSTART_HUB_MODEL_ID_TAG_PREFIX)
         ),
         None,
     )
-    jumpstart_model_version = next(
+    jumpstart_model_version_tag = next(
         (
             tag
-            for tag in hub_content_summary.search_keywords
+            for tag in hub_content_summary.hub_content_search_keywords
             if tag.startswith(JUMPSTART_HUB_MODEL_VERSION_TAG_PREFIX)
         ),
         None,
     )
 
-    if jumpstart_model_id is None or jumpstart_model_version is None:
+    if jumpstart_model_id_tag is None or jumpstart_model_version_tag is None:
         return None
-    return JumpStartModelInfo(model_id=jumpstart_model_id, version=jumpstart_model_version)
+    # jumpstart_model_id = jumpstart_model_id_tag[len(JUMPSTART_HUB_MODEL_ID_TAG_PREFIX) + 1:] # Need to remove prefix + ":" character
+    # jumpstart_model_version = jumpstart_model_version_tag[len(JUMPSTART_HUB_MODEL_VERSION_TAG_PREFIX) + 1:]
+    return JumpStartModelInfo(model_id=jumpstart_model_id_tag, version=jumpstart_model_version_tag)
     
 def get_latest_version_for_model(model_id: str, region: str) -> str:
     """Returns the latest version of a model from specs."""
