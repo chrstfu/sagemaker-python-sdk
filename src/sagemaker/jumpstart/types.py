@@ -36,6 +36,11 @@ from sagemaker.jumpstart.converter_utils import (
     snake_to_upper_camel,
     walk_and_apply_json,
 )
+from sagemaker.jumpstart.curated_hub.interfaces import (
+    HubModelDocument,
+    HubContentInfo,
+    HubContentDependency,
+)
 
 
 class JumpStartDataHolderType:
