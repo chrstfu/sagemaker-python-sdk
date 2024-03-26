@@ -455,6 +455,9 @@ class CuratedHub:
             hub_content_dependencies=dependencies,
             region=self.region,
         )
+
+        print(f"Importing HubContentDocument: {hub_content_document}\n\n\n")
+
         self._sagemaker_session.import_hub_content(
             document_schema_version=hub_content_document.get_schema_version(),
             hub_content_name=model.model_id,
