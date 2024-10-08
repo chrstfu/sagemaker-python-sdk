@@ -451,7 +451,7 @@ class NotebookLocationUris(HubDataHolderType):
 class HubModelDocument(HubDataHolderType):
     """Data class for model type HubContentDocument from session.describe_hub_content()."""
 
-    SCHEMA_VERSION = "2.2.0"
+    SCHEMA_VERSION = "2.3.0"
 
     __slots__ = [
         "url",
@@ -469,6 +469,7 @@ class HubModelDocument(HubDataHolderType):
         "hosting_use_script_uri",
         "hosting_eula_uri",
         "hosting_model_package_arn",
+        "model_subscription_link",
         "inference_configs",
         "inference_config_components",
         "inference_config_rankings",
@@ -585,6 +586,8 @@ class HubModelDocument(HubDataHolderType):
         )
         self.hosting_eula_uri: Optional[str] = json_obj.get("HostingEulaUri")
         self.hosting_model_package_arn: Optional[str] = json_obj.get("HostingModelPackageArn")
+
+        self.model_subscription_link: Optional[str] = json_obj.get("ModelSubscriptionLink")
 
         self.inference_config_rankings = self._get_config_rankings(json_obj)
         self.inference_config_components = self._get_config_components(json_obj)

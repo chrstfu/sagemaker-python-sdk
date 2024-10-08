@@ -219,6 +219,8 @@ def make_model_specs_from_describe_hub_content_response(
 
     if hub_model_document.hosting_model_package_arn:
         specs["hosting_model_package_arns"] = {region: hub_model_document.hosting_model_package_arn}
+    
+    specs["model_subscription_link"] = hub_model_document.model_subscription_link
 
     specs["hosting_use_script_uri"] = hub_model_document.hosting_use_script_uri
 
