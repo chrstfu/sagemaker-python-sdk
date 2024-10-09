@@ -416,3 +416,45 @@ def test_jumpstart_session_with_config_name():
         "md/js_model_id#meta-textgeneration-llama-2-7b md/js_model_ver#* md/js_config#tgi"
         in mock_make_request.call_args[0][1]["headers"]["User-Agent"]
     )
+
+
+def test_proprietary_model_from_hub_service(setup):
+    
+    model_id = "upstage-solar-mini-chat"
+
+    model = JumpStartModel(
+        model_id=model_id,
+        hub_name="SageMakerPublicHub",
+        role=get_sm_session().get_caller_identity_arn(),
+        sagemaker_session=get_sm_session(),
+    )
+
+    predictor = model.deploy(
+        tags=[{"Key": JUMPSTART_TAG, "Value": os.environ[ENV_VAR_JUMPSTART_SDK_TEST_SUITE_ID]}]
+    )
+    payload = {"prompt": "To be, or", "maxTokens": 4, "temperature": 0, "numResults": 1}
+
+    response = predictor.predict(payload)
+
+    assert response is not None
+
+def test_bedrock_store_model_tags_from_hub_service(setup):
+    
+    model_id = "huggingface-llm-gemma-2b-instruct"
+
+    model = JumpStartModel(
+        model_id=model_id,
+        hub_name="SageMakerPublicHub",
+        role=get_sm_session().get_caller_identity_arn(),
+        sagemaker_session=get_sm_session(),
+    )
+
+    predictor = model.deploy(
+        tags=[{"Key": JUMPSTART_TAG, "Value": os.environ[ENV_VAR_JUMPSTART_SDK_TEST_SUITE_ID]}],
+        accept_eula=True
+    )
+
+    endpoint_arn = f'arn:aws:sagemaker:{get_sm_session().boto_region_name}:{get_sm_session().account_id()}:endpoint/{predictor.endpoint_name}'
+    tags = get_sm_session().list_tags(endpoint_arn)
+    expected_tag = {"Key": 'sagemaker-sdk:bedrock', "Value": 'compatible'}
+    assert expected_tag in tags
