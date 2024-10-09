@@ -41,7 +41,7 @@ from sagemaker.jumpstart.hub.utils import (
 from sagemaker.model_metrics import ModelMetrics
 from sagemaker.metadata_properties import MetadataProperties
 from sagemaker.drift_check_baselines import DriftCheckBaselines
-from sagemaker.jumpstart.enums import JumpStartScriptScope, JumpStartModelType
+from sagemaker.jumpstart.enums import JumpStartScriptScope, JumpStartModelType, HubContentCapability
 from sagemaker.jumpstart.types import (
     HubContentType,
     JumpStartModelDeployKwargs,
@@ -51,6 +51,7 @@ from sagemaker.jumpstart.types import (
 )
 from sagemaker.jumpstart.utils import (
     add_hub_content_arn_tags,
+    add_bedrock_store_tags,
     add_jumpstart_model_info_tags,
     get_default_jumpstart_session_with_user_agent_suffix,
     get_neo_content_bucket,
@@ -487,6 +488,10 @@ def _add_tags_to_kwargs(kwargs: JumpStartModelDeployKwargs) -> Dict[str, Any]:
                 kwargs.hub_arn, kwargs.model_id, kwargs.model_version
             )
         kwargs.tags = add_hub_content_arn_tags(kwargs.tags, hub_content_arn=hub_content_arn)
+
+    if hasattr(kwargs.specs, "capabilities"):
+      if HubContentCapability.BEDROCK_CONSOLE in kwargs.specs.capabilities:
+        kwargs.tags = add_bedrock_store_tags(kwargs.tags, compatibility="compatible")
 
     return kwargs
 

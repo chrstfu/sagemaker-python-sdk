@@ -1200,6 +1200,7 @@ class JumpStartMetadataBaseFields(JumpStartDataHolderType):
         "url",
         "version",
         "min_sdk_version",
+        "capabilities",
         "incremental_training_supported",
         "hosting_ecr_specs",
         "hosting_ecr_uri",
@@ -1287,6 +1288,7 @@ class JumpStartMetadataBaseFields(JumpStartDataHolderType):
             json_obj.get("incremental_training_supported", False)
         )
         if self._is_hub_content:
+            self.capabilities: Optional[str] = json_obj.get("capabilities")
             self.hosting_ecr_uri: Optional[str] = json_obj.get("hosting_ecr_uri")
             self._non_serializable_slots.append("hosting_ecr_specs")
         else:
