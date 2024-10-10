@@ -489,7 +489,7 @@ def _add_tags_to_kwargs(kwargs: JumpStartModelDeployKwargs) -> Dict[str, Any]:
             )
         kwargs.tags = add_hub_content_arn_tags(kwargs.tags, hub_content_arn=hub_content_arn)
 
-    if hasattr(kwargs.specs, "capabilities"):
+    if kwargs.specs.capabilities is not None:
       if HubContentCapability.BEDROCK_CONSOLE in kwargs.specs.capabilities:
         kwargs.tags = add_bedrock_store_tags(kwargs.tags, compatibility="compatible")
 

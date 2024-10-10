@@ -551,17 +551,17 @@ class HubModelDocument(HubDataHolderType):
             json_obj (Dict[str, Any]): Dictionary representation of hub model document.
         """
         self.url: str = json_obj["Url"]
-        self.min_sdk_version: str = json_obj["MinSdkVersion"]
-        self.hosting_ecr_uri: Optional[str] = json_obj["HostingEcrUri"]
-        self.hosting_artifact_uri = json_obj["HostingArtifactUri"]
-        self.hosting_script_uri = json_obj["HostingScriptUri"]
-        self.inference_dependencies: List[str] = json_obj["InferenceDependencies"]
+        self.min_sdk_version: str = json_obj.get("MinSdkVersion")
+        self.hosting_ecr_uri: Optional[str] = json_obj.get("HostingEcrUri")
+        self.hosting_artifact_uri = json_obj.get("HostingArtifactUri")
+        self.hosting_script_uri = json_obj.get("HostingScriptUri")
+        self.inference_dependencies: List[str] = json_obj.get("InferenceDependencies")
         self.inference_environment_variables: List[JumpStartEnvironmentVariable] = [
             JumpStartEnvironmentVariable(env_variable, is_hub_content=True)
-            for env_variable in json_obj["InferenceEnvironmentVariables"]
+            for env_variable in json_obj.get("InferenceEnvironmentVariables", [])
         ]
-        self.training_supported: bool = bool(json_obj["TrainingSupported"])
-        self.incremental_training_supported: bool = bool(json_obj["IncrementalTrainingSupported"])
+        self.training_supported: bool = bool(json_obj.get("TrainingSupported"))
+        self.incremental_training_supported: bool = bool(json_obj.get("IncrementalTrainingSupported"))
         self.dynamic_container_deployment_supported: Optional[bool] = (
             bool(json_obj.get("DynamicContainerDeploymentSupported"))
             if json_obj.get("DynamicContainerDeploymentSupported")

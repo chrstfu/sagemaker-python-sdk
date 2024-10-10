@@ -146,15 +146,19 @@ def make_model_specs_from_describe_hub_content_response(
     specs["inference_config_components"] = hub_model_document.inference_config_components
     specs["inference_config_rankings"] = hub_model_document.inference_config_rankings
 
-    hosting_artifact_bucket, hosting_artifact_key = parse_s3_url(  # pylint: disable=unused-variable
-        hub_model_document.hosting_artifact_uri
-    )
-    specs["hosting_artifact_key"] = hosting_artifact_key
-    specs["hosting_artifact_uri"] = hub_model_document.hosting_artifact_uri
-    hosting_script_bucket, hosting_script_key = parse_s3_url(  # pylint: disable=unused-variable
-        hub_model_document.hosting_script_uri
-    )
-    specs["hosting_script_key"] = hosting_script_key
+    if hub_model_document.hosting_artifact_uri:
+      _, hosting_artifact_key = parse_s3_url(  # pylint: disable=unused-variable
+          hub_model_document.hosting_artifact_uri
+      )
+      specs["hosting_artifact_key"] = hosting_artifact_key
+      specs["hosting_artifact_uri"] = hub_model_document.hosting_artifact_uri
+
+    if hub_model_document.hosting_script_uri:
+      _, hosting_script_key = parse_s3_url(  # pylint: disable=unused-variable
+          hub_model_document.hosting_script_uri
+      )
+      specs["hosting_script_key"] = hosting_script_key
+    
     specs["inference_environment_variables"] = hub_model_document.inference_environment_variables
     specs["inference_vulnerable"] = False
     specs["inference_dependencies"] = hub_model_document.inference_dependencies
