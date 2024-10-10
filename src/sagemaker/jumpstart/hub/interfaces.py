@@ -457,6 +457,7 @@ class HubModelDocument(HubDataHolderType):
         "url",
         "min_sdk_version",
         "training_supported",
+        "capabilities",
         "incremental_training_supported",
         "dynamic_container_deployment_supported",
         "hosting_ecr_uri",
@@ -560,6 +561,7 @@ class HubModelDocument(HubDataHolderType):
             JumpStartEnvironmentVariable(env_variable, is_hub_content=True)
             for env_variable in json_obj.get("InferenceEnvironmentVariables", [])
         ]
+        self.capabilities: Optional[List[str]] = json_obj.get("Capabilities")
         self.training_supported: bool = bool(json_obj.get("TrainingSupported"))
         self.incremental_training_supported: bool = bool(json_obj.get("IncrementalTrainingSupported"))
         self.dynamic_container_deployment_supported: Optional[bool] = (

@@ -137,6 +137,7 @@ def make_model_specs_from_describe_hub_content_response(
     hub_model_document: HubModelDocument = response.hub_content_document
     specs["url"] = hub_model_document.url
     specs["min_sdk_version"] = hub_model_document.min_sdk_version
+    specs["capabilities"] = hub_model_document.capabilities
     specs["training_supported"] = bool(hub_model_document.training_supported)
     specs["incremental_training_supported"] = bool(
         hub_model_document.incremental_training_supported
