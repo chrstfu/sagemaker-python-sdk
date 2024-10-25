@@ -53,6 +53,7 @@ from sagemaker.jumpstart.utils import (
     add_hub_content_arn_tags,
     add_bedrock_store_tags,
     add_jumpstart_model_info_tags,
+    add_bedrock_store_tags,
     get_default_jumpstart_session_with_user_agent_suffix,
     get_neo_content_bucket,
     get_top_ranked_config_name,
@@ -489,9 +490,9 @@ def _add_tags_to_kwargs(kwargs: JumpStartModelDeployKwargs) -> Dict[str, Any]:
             )
         kwargs.tags = add_hub_content_arn_tags(kwargs.tags, hub_content_arn=hub_content_arn)
 
-    if kwargs.specs.capabilities is not None:
-      if HubContentCapability.BEDROCK_CONSOLE in kwargs.specs.capabilities:
-        kwargs.tags = add_bedrock_store_tags(kwargs.tags, compatibility="compatible")
+    if hasattr(kwargs.specs, "capabilities") and kwargs.specs.capabilities is not None:
+        if HubContentCapability.BEDROCK_CONSOLE in kwargs.specs.capabilities:
+            kwargs.tags = add_bedrock_store_tags(kwargs.tags, compatibility="compatible")
 
     return kwargs
 

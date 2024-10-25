@@ -83,9 +83,10 @@ class VariableTypes(str, Enum):
 
 
 class HubContentCapability(str, Enum):
-     """Enum class for HubContent capabilities."""
+    """Enum class for HubContent capabilities."""
 
-     BEDROCK_CONSOLE = "BEDROCK_CONSOLE"
+    BEDROCK_CONSOLE = "BEDROCK_CONSOLE"
+
 
 class JumpStartTag(str, Enum):
     """Enum class for tag keys to apply to JumpStart models."""

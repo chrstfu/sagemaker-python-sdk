@@ -53,6 +53,8 @@ GATED_INFERENCE_MODEL_PACKAGE_SUPPORTED_REGIONS = {
     "ap-southeast-2",
 }
 
+TEST_HUB_WITH_REFERENCE = "mock-hub-name"
+
 
 def test_non_prepacked_jumpstart_model(setup):
 
@@ -418,43 +420,146 @@ def test_jumpstart_session_with_config_name():
     )
 
 
-def test_proprietary_model_from_hub_service(setup):
-    
-    model_id = "upstage-solar-mini-chat"
+def _setup_test_hub_with_reference(public_hub_model_id: str):
+    session = get_sm_session()
 
-    model = JumpStartModel(
-        model_id=model_id,
-        hub_name="SageMakerPublicHub",
-        role=get_sm_session().get_caller_identity_arn(),
-        sagemaker_session=get_sm_session(),
+    try:
+        session.create_hub(
+            hub_name=TEST_HUB_WITH_REFERENCE,
+            hub_description="this is my sagemaker hub",
+            hub_display_name="Mock Hub",
+            hub_search_keywords=["mock", "hub", "123"],
+            s3_storage_config={"S3OutputPath": "s3://my-hub-bucket/"},
+            tags=[{"Key": "tag-key-1", "Value": "tag-value-1"}],
+        )
+    except Exception as e:
+        if "ResourceInUse" in str(e):
+            print("Hub already exists")
+        else:
+            raise e
+
+    try:
+        session.create_hub_content_reference(
+            hub_name=TEST_HUB_WITH_REFERENCE,
+            source_hub_content_arn=(
+                f"arn:aws:sagemaker:{session.boto_region_name}:aws:"
+                f"hub-content/SageMakerPublicHub/Model/{public_hub_model_id}"
+            ),
+        )
+    except Exception as e:
+        if "ResourceInUse" in str(e):
+            print("Reference already exists")
+        else:
+            raise e
+
+
+def _teardown_test_hub_with_reference(public_hub_model_id: str):
+    session = get_sm_session()
+
+    try:
+        session.delete_hub_content_reference(
+            hub_name=TEST_HUB_WITH_REFERENCE,
+            hub_content_type="ModelReference",
+            hub_content_name=public_hub_model_id,
+        )
+    except Exception as e:
+        if "ResourceInUse" in str(e):
+            print("Reference already exists")
+        else:
+            raise e
+
+    try:
+        session.delete_hub(hub_name=TEST_HUB_WITH_REFERENCE)
+    except Exception as e:
+        if "ResourceInUse" in str(e):
+            print("Hub already exists")
+        else:
+            raise e
+
+
+# Currently JumpStartModel does not pull from HubService for the Public Hub.
+def test_model_reference_marketplace_model(setup):
+    session = get_sm_session()
+
+    # TODO: hardcoded model ID is brittle - should be dynamic pull via ListHubContents
+    public_hub_marketplace_model_id = "upstage-solar-mini-chat"
+    _setup_test_hub_with_reference(public_hub_marketplace_model_id)
+
+    JumpStartModel(  # Retrieving MP model None -> defaults to latest SemVer
+        model_id=public_hub_marketplace_model_id,
+        hub_name=TEST_HUB_WITH_REFERENCE,
+        role=session.get_caller_identity_arn(),
+        sagemaker_session=session,
     )
 
-    predictor = model.deploy(
-        tags=[{"Key": JUMPSTART_TAG, "Value": os.environ[ENV_VAR_JUMPSTART_SDK_TEST_SUITE_ID]}]
+    model_semver = JumpStartModel(  # Retrieving MP model SemVer -> uses SemVer
+        model_id=public_hub_marketplace_model_id,
+        hub_name=TEST_HUB_WITH_REFERENCE,
+        role=session.get_caller_identity_arn(),
+        sagemaker_session=session,
+        model_version="1.0.0",
     )
-    payload = {"prompt": "To be, or", "maxTokens": 4, "temperature": 0, "numResults": 1}
 
-    response = predictor.predict(payload)
+    model_marketplace_version = JumpStartModel(  # Retrieving MP model MP version -> uses MPver
+        model_id=public_hub_marketplace_model_id,
+        hub_name=TEST_HUB_WITH_REFERENCE,
+        role=session.get_caller_identity_arn(),
+        sagemaker_session=session,
+        model_version="240612.5",
+    )
 
-    assert response is not None
+    _teardown_test_hub_with_reference(public_hub_marketplace_model_id)  # Cleanup before assertions
+
+    assert model_semver.model_version == model_marketplace_version.model_version
+
+
+def test_model_reference_marketplace_model_deployment(setup):
+    session = get_sm_session()
+    public_hub_marketplace_model_id = "upstage-solar-mini-chat"
+    _setup_test_hub_with_reference(public_hub_marketplace_model_id)
+
+    marketplace_model = JumpStartModel(  # Retrieving MP model MP version -> uses MPver
+        model_id=public_hub_marketplace_model_id,
+        hub_name=TEST_HUB_WITH_REFERENCE,
+        role=session.get_caller_identity_arn(),
+        sagemaker_session=session,
+        model_version="240612.5",
+    )
+    predictor = marketplace_model.deploy(
+        tags=[{"Key": JUMPSTART_TAG, "Value": os.environ[ENV_VAR_JUMPSTART_SDK_TEST_SUITE_ID]}],
+        accept_eula=True,
+    )
+
+    predictor.delete_predictor()
+    _teardown_test_hub_with_reference(public_hub_marketplace_model_id)
+
 
 def test_bedrock_store_model_tags_from_hub_service(setup):
-    
-    model_id = "huggingface-llm-gemma-2b-instruct"
 
-    model = JumpStartModel(
-        model_id=model_id,
-        hub_name="SageMakerPublicHub",
-        role=get_sm_session().get_caller_identity_arn(),
-        sagemaker_session=get_sm_session(),
+    session = get_sm_session()
+    brs_model_id = "huggingface-llm-gemma-2b-instruct"
+    _setup_test_hub_with_reference(brs_model_id)
+
+    brs_model = JumpStartModel(
+        model_id=brs_model_id,
+        hub_name=TEST_HUB_WITH_REFERENCE,
+        role=session.get_caller_identity_arn(),
+        sagemaker_session=session,
     )
 
-    predictor = model.deploy(
+    predictor = brs_model.deploy(
         tags=[{"Key": JUMPSTART_TAG, "Value": os.environ[ENV_VAR_JUMPSTART_SDK_TEST_SUITE_ID]}],
-        accept_eula=True
+        accept_eula=True,
     )
 
-    endpoint_arn = f'arn:aws:sagemaker:{get_sm_session().boto_region_name}:{get_sm_session().account_id()}:endpoint/{predictor.endpoint_name}'
-    tags = get_sm_session().list_tags(endpoint_arn)
-    expected_tag = {"Key": 'sagemaker-sdk:bedrock', "Value": 'compatible'}
+    endpoint_arn = (
+        f"arn:aws:sagemaker:{session.boto_region_name}:"
+        f"{session.account_id()}:endpoint/{predictor.endpoint_name}"
+    )
+    tags = session.list_tags(endpoint_arn)
+
+    predictor.delete_predictor()  # Cleanup before assertions
+    _teardown_test_hub_with_reference(brs_model_id)
+
+    expected_tag = {"Key": "sagemaker-sdk:bedrock", "Value": "compatible"}
     assert expected_tag in tags

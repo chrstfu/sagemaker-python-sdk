@@ -457,6 +457,7 @@ class HubModelDocument(HubDataHolderType):
         "url",
         "min_sdk_version",
         "training_supported",
+        "model_types",
         "capabilities",
         "incremental_training_supported",
         "dynamic_container_deployment_supported",
@@ -551,7 +552,7 @@ class HubModelDocument(HubDataHolderType):
         Args:
             json_obj (Dict[str, Any]): Dictionary representation of hub model document.
         """
-        self.url: str = json_obj["Url"]
+        self.url: str = json_obj.get("Url")
         self.min_sdk_version: str = json_obj.get("MinSdkVersion")
         self.hosting_ecr_uri: Optional[str] = json_obj.get("HostingEcrUri")
         self.hosting_artifact_uri = json_obj.get("HostingArtifactUri")
@@ -561,9 +562,12 @@ class HubModelDocument(HubDataHolderType):
             JumpStartEnvironmentVariable(env_variable, is_hub_content=True)
             for env_variable in json_obj.get("InferenceEnvironmentVariables", [])
         ]
+        self.model_types: Optional[List[str]] = json_obj.get("ModelTypes")
         self.capabilities: Optional[List[str]] = json_obj.get("Capabilities")
         self.training_supported: bool = bool(json_obj.get("TrainingSupported"))
-        self.incremental_training_supported: bool = bool(json_obj.get("IncrementalTrainingSupported"))
+        self.incremental_training_supported: bool = bool(
+            json_obj.get("IncrementalTrainingSupported")
+        )
         self.dynamic_container_deployment_supported: Optional[bool] = (
             bool(json_obj.get("DynamicContainerDeploymentSupported"))
             if json_obj.get("DynamicContainerDeploymentSupported")
