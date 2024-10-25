@@ -37,14 +37,18 @@ from sagemaker.jumpstart.constants import (
 from sagemaker.model_metrics import ModelMetrics
 from sagemaker.metadata_properties import MetadataProperties
 from sagemaker.drift_check_baselines import DriftCheckBaselines
-from sagemaker.jumpstart.enums import JumpStartScriptScope, JumpStartModelType
+from sagemaker.jumpstart.enums import JumpStartScriptScope, JumpStartModelType, HubContentCapability
 from sagemaker.jumpstart.types import (
     JumpStartModelDeployKwargs,
     JumpStartModelInitKwargs,
     JumpStartModelRegisterKwargs,
 )
 from sagemaker.jumpstart.utils import (
-    add_jumpstart_model_id_version_tags,
+    add_hub_content_arn_tags,
+    add_jumpstart_model_info_tags,
+    get_default_jumpstart_session_with_user_agent_suffix,
+    get_neo_content_bucket,
+    get_top_ranked_config_name,
     update_dict_if_key_not_present,
     resolve_model_sagemaker_config_field,
     verify_model_region_and_return_specs,
@@ -482,6 +486,17 @@ def _add_tags_to_kwargs(kwargs: JumpStartModelDeployKwargs) -> Dict[str, Any]:
         kwargs.tags = add_jumpstart_model_id_version_tags(
             kwargs.tags, kwargs.model_id, full_model_version, kwargs.model_type
         )
+
+    if kwargs.hub_arn:
+        if kwargs.model_reference_arn:
+            hub_content_arn = construct_hub_model_reference_arn_from_inputs(
+                kwargs.hub_arn, kwargs.model_id, kwargs.model_version
+            )
+        else:
+            hub_content_arn = construct_hub_model_arn_from_inputs(
+                kwargs.hub_arn, kwargs.model_id, kwargs.model_version
+            )
+        kwargs.tags = add_hub_content_arn_tags(kwargs.tags, hub_content_arn=hub_content_arn)
 
     return kwargs
 
